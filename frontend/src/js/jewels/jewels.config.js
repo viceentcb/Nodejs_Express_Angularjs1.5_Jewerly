@@ -19,19 +19,19 @@ function JewelsConfig($stateProvider) {
             }
         })
 
-        // .state("app.detailsJewels", {
-        //     url: "/jewels/:slug",
-        //     controller: "DetailsJewelsCtrl",
-        //     controllerAs: "$ctrl",
-        //     templateUrl: "jewels/detailsjewels.html",
-        //     title: "Details Jewels",
-        //     resolve: {
-        //         jewel: function (Jewels, $stateParams) {
-        //             //este nombre es el que recibe el controlador
-        //             return Jewels.getJewel($stateParams.slug).then(jewel => jewel); //recibo 1 jewel
-        //         }
-        //     }
-        // })
+        .state("app.detailsJewels", {
+            url: "/jewels/:slug",
+            controller: "Jewels_det_Ctrl",
+            controllerAs: "$ctrl",
+            templateUrl: "jewels/jewelsdetails.html",
+            title: "Details Jewels",
+            resolve: {
+                jewel: function (Jewels, $stateParams) {
+                    //este nombre es el que recibe el controlador
+                    return Jewels.getJewel($stateParams.slug).then(jewel => jewel); //recibo 1 jewel
+                }
+            }
+        })
 };
 
 export default JewelsConfig;

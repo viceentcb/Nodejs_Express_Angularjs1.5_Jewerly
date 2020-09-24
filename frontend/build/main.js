@@ -41250,7 +41250,7 @@ _angular2.default.bootstrap(document, ['app'], {
   strictDi: true
 });
 
-},{"./auth":7,"./components":10,"./config/app.config":13,"./config/app.constants":14,"./config/app.run":15,"./config/app.templates":16,"./editor":20,"./home":23,"./jewels":24,"./layout":29,"./profile":30,"./services":35,"./settings":41,"angular":3,"angular-ui-router":1}],5:[function(require,module,exports){
+},{"./auth":7,"./components":10,"./config/app.config":13,"./config/app.constants":14,"./config/app.run":15,"./config/app.templates":16,"./editor":20,"./home":23,"./jewels":24,"./layout":30,"./profile":31,"./services":36,"./settings":42,"angular":3,"angular-ui-router":1}],5:[function(require,module,exports){
 'use strict';
 
 AuthConfig.$inject = ["$stateProvider", "$httpProvider"];
@@ -41693,9 +41693,10 @@ exports.default = AppRun;
 angular.module("templates", []).run(["$templateCache", function ($templateCache) {
   $templateCache.put("auth/auth.html", "<div class=\"auth-page\">\n  <div class=\"container page\">\n    <div class=\"row\">\n\n      <div class=\"col-md-6 offset-md-3 col-xs-12\">\n        <h1 class=\"text-xs-center\" ng-bind=\"::$ctrl.title\"></h1>\n        <p class=\"text-xs-center\">\n          <a ui-sref=\"app.login\"\n            ng-show=\"$ctrl.authType === \'register\'\">\n            Have an account?\n          </a>\n          <a ui-sref=\"app.register\"\n            ng-show=\"$ctrl.authType === \'login\'\">\n            Need an account?\n          </a>\n        </p>\n\n        <list-errors errors=\"$ctrl.errors\"></list-errors>\n\n        <form ng-submit=\"$ctrl.submitForm()\">\n          <fieldset ng-disabled=\"$ctrl.isSubmitting\">\n\n            <fieldset class=\"form-group\" ng-show=\"$ctrl.authType === \'register\'\">\n              <input class=\"form-control form-control-lg\"\n                type=\"text\"\n                placeholder=\"Username\"\n                ng-model=\"$ctrl.formData.username\" />\n            </fieldset>\n\n            <fieldset class=\"form-group\">\n              <input class=\"form-control form-control-lg\"\n                type=\"email\"\n                placeholder=\"Email\"\n                ng-model=\"$ctrl.formData.email\" />\n            </fieldset>\n\n            <fieldset class=\"form-group\">\n              <input class=\"form-control form-control-lg\"\n                type=\"password\"\n                placeholder=\"Password\"\n                ng-model=\"$ctrl.formData.password\" />\n            </fieldset>\n\n            <button class=\"btn btn-lg btn-primary pull-xs-right\"\n              type=\"submit\"\n              ng-bind=\"::$ctrl.title\">\n            </button>\n\n          </fieldset>\n        </form>\n      </div>\n\n    </div>\n  </div>\n</div>\n");
   $templateCache.put("components/list-errors.html", "<ul class=\"error-messages\" ng-show=\"$ctrl.errors\">\n  <div ng-repeat=\"(field, errors) in $ctrl.errors\">\n    <li ng-repeat=\"error in errors\">\n      {{field}} {{error}}\n    </li>\n  </div>\n</ul>\n");
-  $templateCache.put("home/home.html", "<div class=\"home-page\">\n\n  <!-- Splash banner that only shows when not logged in -->\n  <div class=\"banner\" show-authed=\"false\">\n    <div class=\"container\">\n      <h1 class=\"logo-font\" ng-bind=\"::$ctrl.appName | lowercase\"></h1>\n      <p>A place to share your knowledge.</p>\n    </div>\n  </div>\n\n  <div class=\"container page\">\n    <div class=\"row\">\n\n\n      <!-- Main view - contains tabs & article list -->\n      <div class=\"col-md-9\">\n        <!-- Tabs for toggling between feed, article lists -->\n        <div class=\"feed-toggle\">\n          <ul class=\"nav nav-pills outline-active\">\n\n            <li class=\"nav-item\" show-authed=\"true\">\n              <a href=\"\" class=\"nav-link\" ng-class=\"{ active: $ctrl.listConfig.type === \'feed\' }\"\n                ng-click=\"$ctrl.changeList({ type: \'feed\' })\">\n                Your Feed\n              </a>\n            </li>\n\n            <li class=\"nav-item\">\n              <a href=\"\" class=\"nav-link\"\n                ng-class=\"{ active: $ctrl.listConfig.type === \'all\' && !$ctrl.listConfig.filters }\"\n                ng-click=\"$ctrl.changeList({ type: \'all\' })\">\n                Global Feed\n              </a>\n            </li>\n\n\n            <li class=\"nav-item\" ng-show=\"$ctrl.listConfig.filters.tag\">\n              <a href=\"\" class=\"nav-link active\">\n                <i class=\"ion-pound\"></i> {{$ctrl.listConfig.filters.tag}}\n              </a>\n            </li>\n            <li></li>\n\n          </ul>\n\n          <div class=\"jewels\" ng-repeat=\"jewel in jewels\">\n            <h2> {{jewel.name}}</h2>\n            <p id=\"brand\">{{jewel.brand}}</p>\n            <!-- <li class=\"tag-default tag-pill tag-outline\" ng-repeat=\"tag in $ctrl.jewel.tagList\">\n              {{tag}}\n            </li> -->\n            <button ng-click=\"openDetails()\">Show jewel</button>\n          </div>\n        </div>\n\n        <!-- List the current articles -->\n        <article-list limit=\"10\" list-config=\"$ctrl.listConfig\"></article-list>\n\n      </div>\n\n      <!-- Sidebar where popular tags are listed -->\n      <div class=\"col-md-3\">\n        <div class=\"sidebar\">\n\n          <p>Popular Tags</p>\n\n          <div class=\"tag-list\" ng-show=\"$ctrl.tags\">\n            <a href=\"\" class=\"tag-default tag-pill\"\n              ng-click=\"$ctrl.changeList({ type: \'all\', filters: { tag: tagName } })\" ng-repeat=\"tagName in $ctrl.tags\"\n              ng-bind=\"tagName\">\n            </a>\n          </div>\n\n          <div ng-show=\"!$ctrl.tagsLoaded\">\n            Loading tags...\n          </div>\n\n          <div class=\"post-preview\" ng-show=\"$ctrl.tagsLoaded && !$ctrl.tags.length\">\n            No tags are here... yet.\n          </div>\n\n        </div>\n      </div>\n\n      <!-- End the row & container divs -->\n    </div>\n  </div>\n\n</div>");
   $templateCache.put("editor/editor.html", "<div class=\"editor-page\">\n  <div class=\"container page\">\n    <div class=\"row\">\n      <div class=\"col-md-10 offset-md-1 col-xs-12\">\n\n        <list-errors errors=\"$ctrl.errors\"></list-errors>\n\n        <form>\n          <fieldset ng-disabled=\"$ctrl.isSubmitting\">\n\n            <fieldset class=\"form-group\">\n              <input class=\"form-control form-control-lg\"\n                ng-model=\"$ctrl.article.title\"\n                type=\"text\"\n                placeholder=\"Article Title\" />\n            </fieldset>\n\n            <fieldset class=\"form-group\">\n              <input class=\"form-control\"\n                ng-model=\"$ctrl.article.description\"\n                type=\"text\"\n                placeholder=\"What\'s this article about?\" />\n            </fieldset>\n\n            <fieldset class=\"form-group\">\n              <textarea class=\"form-control\"\n                rows=\"8\"\n                ng-model=\"$ctrl.article.body\"\n                placeholder=\"Write your article (in markdown)\">\n              </textarea>\n            </fieldset>\n\n            <fieldset class=\"form-group\">\n              <input class=\"form-control\"\n                type=\"text\"\n                placeholder=\"Enter tags\"\n                ng-model=\"$ctrl.tagField\"\n                ng-keyup=\"$event.keyCode == 13 && $ctrl.addTag()\" />\n\n              <div class=\"tag-list\">\n                <span ng-repeat=\"tag in $ctrl.article.tagList\"\n                  class=\"tag-default tag-pill\">\n                  <i class=\"ion-close-round\" ng-click=\"$ctrl.removeTag(tag)\"></i>\n                  {{ tag }}\n                </span>\n              </div>\n            </fieldset>\n\n            <button class=\"btn btn-lg pull-xs-right btn-primary\" type=\"button\" ng-click=\"$ctrl.submit()\">\n              Publish Article\n            </button>\n\n          </fieldset>\n        </form>\n\n      </div>\n    </div>\n  </div>\n</div>\n");
-  $templateCache.put("jewels/jewels.html", "<div class=\"jewels\" ng-repeat=\"jewel in jewels\">\n    <h2> {{jewel.name}}</h2>\n    <p id=\"brand\">{{jewel.brand}}</p>\n    <!-- <li class=\"tag-default tag-pill tag-outline\" ng-repeat=\"tag in $ctrl.jewel.tagList\">\n      {{tag}}\n    </li> -->\n    <button ng-click=\"openDetails()\">Show jewel</button>\n  </div>\n</div>");
+  $templateCache.put("home/home.html", "<div class=\"home-page\">\n\n  <!-- Splash banner that only shows when not logged in -->\n  <div class=\"banner\" show-authed=\"false\">\n    <div class=\"container\">\n      <h1 class=\"logo-font\" ng-bind=\"::$ctrl.appName | lowercase\"></h1>\n      <p>A place to share your knowledge.</p>\n    </div>\n  </div>\n\n  <div class=\"container page\">\n    <div class=\"row\">\n\n\n      <!-- Main view - contains tabs & article list -->\n      <div class=\"col-md-9\">\n        <!-- Tabs for toggling between feed, article lists -->\n        <div class=\"feed-toggle\">\n          <ul class=\"nav nav-pills outline-active\">\n\n            <li class=\"nav-item\" show-authed=\"true\">\n              <a href=\"\" class=\"nav-link\" ng-class=\"{ active: $ctrl.listConfig.type === \'feed\' }\"\n                ng-click=\"$ctrl.changeList({ type: \'feed\' })\">\n                Your Feed\n              </a>\n            </li>\n\n            <li class=\"nav-item\">\n              <a href=\"\" class=\"nav-link\"\n                ng-class=\"{ active: $ctrl.listConfig.type === \'all\' && !$ctrl.listConfig.filters }\"\n                ng-click=\"$ctrl.changeList({ type: \'all\' })\">\n                Global Feed\n              </a>\n            </li>\n\n\n            <li class=\"nav-item\" ng-show=\"$ctrl.listConfig.filters.tag\">\n              <a href=\"\" class=\"nav-link active\">\n                <i class=\"ion-pound\"></i> {{$ctrl.listConfig.filters.tag}}\n              </a>\n            </li>\n            <li></li>\n\n          </ul>\n\n          <div class=\"jewels\" ng-repeat=\"jewel in jewels\">\n            <h2> {{jewel.name}}</h2>\n            <p id=\"brand\">{{jewel.brand}}</p>\n            <!-- <li class=\"tag-default tag-pill tag-outline\" ng-repeat=\"tag in $ctrl.jewel.tagList\">\n              {{tag}}\n            </li> -->\n            <button ui-sref=\"app.detailsJewels({slug:jewel.slug})\">Show jewel</button>\n          </div>\n        </div>\n\n        <!-- List the current articles -->\n        <article-list limit=\"10\" list-config=\"$ctrl.listConfig\"></article-list>\n\n      </div>\n\n      <!-- Sidebar where popular tags are listed -->\n      <div class=\"col-md-3\">\n        <div class=\"sidebar\">\n\n          <p>Popular Tags</p>\n\n          <div class=\"tag-list\" ng-show=\"$ctrl.tags\">\n            <a href=\"\" class=\"tag-default tag-pill\"\n              ng-click=\"$ctrl.changeList({ type: \'all\', filters: { tag: tagName } })\" ng-repeat=\"tagName in $ctrl.tags\"\n              ng-bind=\"tagName\">\n            </a>\n          </div>\n\n          <div ng-show=\"!$ctrl.tagsLoaded\">\n            Loading tags...\n          </div>\n\n          <div class=\"post-preview\" ng-show=\"$ctrl.tagsLoaded && !$ctrl.tags.length\">\n            No tags are here... yet.\n          </div>\n\n        </div>\n      </div>\n\n      <!-- End the row & container divs -->\n    </div>\n  </div>\n\n</div>");
+  $templateCache.put("jewels/jewels.html", "<div class=\"jewels\" ng-repeat=\"jewel in jewels\">\n    <h2> {{jewel.name}}</h2>\n    <p id=\"brand\">{{jewel.brand}}</p>\n    <!-- <li class=\"tag-default tag-pill tag-outline\" ng-repeat=\"tag in $ctrl.jewel.tagList\">\n      {{tag}}\n    </li> -->\n    <button ui-sref=\"app.detailsJewels({slug:jewel.slug})\">Show jewel</button>\n  </div>\n</div>");
+  $templateCache.put("jewels/jewelsdetails.html", "    <h2> {{jewel.name}}</h2>\n    <p id=\"brand\">{{jewel.brand}}</p>\n    <!-- <li class=\"tag-default tag-pill tag-outline\" ng-repeat=\"tag in $ctrl.jewel.tagList\">\n      {{tag}}\n    </li> -->\n  </div>\n");
   $templateCache.put("layout/app-view.html", "<app-header></app-header>\n\n<div ui-view></div>\n\n<app-footer></app-footer>\n");
   $templateCache.put("layout/footer.html", "<footer>\n  <div class=\"container\">\n    <a class=\"logo-font\" ui-sref=\"app.home\" ng-bind=\"::$ctrl.appName | lowercase\"></a>\n    <span class=\"attribution\">\n      &copy; {{::$ctrl.date | date:\'yyyy\'}}.\n      An interactive learning project from <a href=\"https://thinkster.io\">Thinkster</a>.\n      Code licensed under MIT.\n    </span>\n  </div>\n</footer>\n");
   $templateCache.put("layout/header.html", "<nav class=\"navbar navbar-light\">\n  <div class=\"container\">\n\n    <a class=\"navbar-brand\" ui-sref=\"app.home\" ng-bind=\"::$ctrl.appName | lowercase\">\n    </a>\n\n    <!-- Show this for logged out users -->\n    <ul show-authed=\"false\" class=\"nav navbar-nav pull-xs-right\">\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.home\">\n          Home\n        </a>\n      </li>\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.jewels\">\n          Jewels\n        </a>\n      </li>\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.login\">\n          Sign in\n        </a>\n      </li>\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.register\">\n          Sign up\n        </a>\n      </li>\n\n    </ul>\n\n    <!-- Show this for logged in users -->\n    <ul show-authed=\"true\" class=\"nav navbar-nav pull-xs-right\">\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.home\">\n          Home\n        </a>\n      </li>\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.jewels\">\n          Jewels\n        </a>\n      </li>\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.editor\">\n          <i class=\"ion-compose\"></i>&nbsp;New Article\n        </a>\n      </li>\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.settings\">\n          <i class=\"ion-gear-a\"></i>&nbsp;Settings\n        </a>\n      </li>\n\n      <li class=\"nav-item\">\n        <a class=\"nav-link\" ui-sref-active=\"active\" ui-sref=\"app.profile.main({ username: $ctrl.currentUser.username})\">\n          <img ng-src=\"{{$ctrl.currentUser.image}}\" class=\"user-pic\" />\n          {{ $ctrl.currentUser.username }}\n        </a>\n      </li>\n\n    </ul>\n\n\n  </div>\n</nav>");
@@ -42027,6 +42028,10 @@ var _jewels3 = require('./jewels.controller');
 
 var _jewels4 = _interopRequireDefault(_jewels3);
 
+var _jewelsdetails = require('./jewelsdetails.controller');
+
+var _jewelsdetails2 = _interopRequireDefault(_jewelsdetails);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // Create the module where our functionality can attach to
@@ -42040,9 +42045,13 @@ jewelsModule.config(_jewels2.default);
 
 jewelsModule.controller('JewelsCtrl', _jewels4.default);
 
+// Details Jewels
+
+jewelsModule.controller('Jewels_det_Ctrl', _jewelsdetails2.default);
+
 exports.default = jewelsModule;
 
-},{"./jewels.config":25,"./jewels.controller":26,"angular":3}],25:[function(require,module,exports){
+},{"./jewels.config":25,"./jewels.controller":26,"./jewelsdetails.controller":27,"angular":3}],25:[function(require,module,exports){
 "use strict";
 
 JewelsConfig.$inject = ["$stateProvider"];
@@ -42068,21 +42077,21 @@ function JewelsConfig($stateProvider) {
                 });
             }]
         }
+    }).state("app.detailsJewels", {
+        url: "/jewels/:slug",
+        controller: "Jewels_det_Ctrl",
+        controllerAs: "$ctrl",
+        templateUrl: "jewels/jewelsdetails.html",
+        title: "Details Jewels",
+        resolve: {
+            jewel: ["Jewels", "$stateParams", function jewel(Jewels, $stateParams) {
+                //este nombre es el que recibe el controlador
+                return Jewels.getJewel($stateParams.slug).then(function (jewel) {
+                    return jewel;
+                }); //recibo 1 jewel
+            }]
+        }
     });
-
-    // .state("app.detailsJewels", {
-    //     url: "/jewels/:slug",
-    //     controller: "DetailsJewelsCtrl",
-    //     controllerAs: "$ctrl",
-    //     templateUrl: "jewels/detailsjewels.html",
-    //     title: "Details Jewels",
-    //     resolve: {
-    //         jewel: function (Jewels, $stateParams) {
-    //             //este nombre es el que recibe el controlador
-    //             return Jewels.getJewel($stateParams.slug).then(jewel => jewel); //recibo 1 jewel
-    //         }
-    //     }
-    // })
 };
 
 exports.default = JewelsConfig;
@@ -42091,45 +42100,55 @@ exports.default = JewelsConfig;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-// document.getElementById("pr").innerHTML = "new HTML"
+var JewelsCtrl = function JewelsCtrl(jewels, $scope, $stateParams) {
+    "ngInject";
 
+    _classCallCheck(this, JewelsCtrl);
 
-var JewelsCtrl = function JewelsCtrl(jewels, $state, $scope, $stateParams) {
-  "ngInject";
+    console.log("controlador_jewel");
 
-  _classCallCheck(this, JewelsCtrl);
+    this._$scope = $scope;
 
-  console.log("controlador_jewel");
+    $scope.jewels = jewels;
 
-  this._$scope = $scope;
-  //this.jewels = jewels.jewel; SI VAMOS POR GRAPHQL
-
-  $scope.jewels = jewels;
-
-  this.filter = $stateParams.filter;
-
-  //   var joyasFiltrados = new Array();
-  //   this.jewels.forEach(jewel => {
-  //     if (jewel.category == this.filter) {
-  //       joyasFiltrados.push(jewel);
-  //     }
-  //   });
-  //   $scope.joyasFiltrados = joyasFiltrados;
-
-  this._$scope.openDetails = function () {
-    $state.go("app.detailsJewels", { slug: this.jewel["slug"] });
-  };
+    this.filter = $stateParams.filter;
 };
-JewelsCtrl.$inject = ["jewels", "$state", "$scope", "$stateParams"];
+JewelsCtrl.$inject = ["jewels", "$scope", "$stateParams"];
 
 exports.default = JewelsCtrl;
 
 },{}],27:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Jewels_det_Ctrl = function Jewels_det_Ctrl(jewel, $scope, $stateParams) {
+    "ngInject";
+
+    _classCallCheck(this, Jewels_det_Ctrl);
+
+    console.log(jewel);
+
+    this._$scope = $scope;
+
+    $scope.jewel = jewel;
+
+    this.filter = $stateParams.filter;
+};
+Jewels_det_Ctrl.$inject = ["jewel", "$scope", "$stateParams"];
+
+exports.default = Jewels_det_Ctrl;
+
+},{}],28:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42157,7 +42176,7 @@ var AppFooter = {
 
 exports.default = AppFooter;
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42189,7 +42208,7 @@ var AppHeader = {
 
 exports.default = AppHeader;
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42221,7 +42240,7 @@ layoutModule.component('appFooter', _footer2.default);
 
 exports.default = layoutModule;
 
-},{"./footer.component":27,"./header.component":28,"angular":3}],30:[function(require,module,exports){
+},{"./footer.component":28,"./header.component":29,"angular":3}],31:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42261,7 +42280,7 @@ profileModule.controller('ProfileArticlesCtrl', _profileArticles2.default);
 
 exports.default = profileModule;
 
-},{"./profile-articles.controller":31,"./profile.config":32,"./profile.controller":33,"angular":3}],31:[function(require,module,exports){
+},{"./profile-articles.controller":32,"./profile.config":33,"./profile.controller":34,"angular":3}],32:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42299,7 +42318,7 @@ ProfileArticlesCtrl.$inject = ["profile", "$state", "$rootScope"];
 
 exports.default = ProfileArticlesCtrl;
 
-},{}],32:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 'use strict';
 
 ProfileConfig.$inject = ["$stateProvider"];
@@ -42342,7 +42361,7 @@ function ProfileConfig($stateProvider) {
 
 exports.default = ProfileConfig;
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42369,7 +42388,7 @@ ProfileCtrl.$inject = ["profile", "User"];
 
 exports.default = ProfileCtrl;
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42430,7 +42449,7 @@ var Comments = function () {
 
 exports.default = Comments;
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42484,7 +42503,7 @@ servicesModule.service('Tags', _tags2.default);
 
 exports.default = servicesModule;
 
-},{"./comments.service":34,"./jewels.service":36,"./jwt.service":37,"./profile.service":38,"./tags.service":39,"./user.service":40,"angular":3}],36:[function(require,module,exports){
+},{"./comments.service":35,"./jewels.service":37,"./jwt.service":38,"./profile.service":39,"./tags.service":40,"./user.service":41,"angular":3}],37:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -42541,7 +42560,7 @@ var Jewels = function () {
 
 exports.default = Jewels;
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42585,7 +42604,7 @@ var JWT = function () {
 
 exports.default = JWT;
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42644,7 +42663,7 @@ var Profile = function () {
 
 exports.default = Profile;
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42684,7 +42703,7 @@ var Tags = function () {
 
 exports.default = Tags;
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42809,7 +42828,7 @@ var User = function () {
 
 exports.default = User;
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -42842,7 +42861,7 @@ settingsModule.controller('SettingsCtrl', _settings4.default);
 
 exports.default = settingsModule;
 
-},{"./settings.config":42,"./settings.controller":43,"angular":3}],42:[function(require,module,exports){
+},{"./settings.config":43,"./settings.controller":44,"angular":3}],43:[function(require,module,exports){
 'use strict';
 
 SettingsConfig.$inject = ["$stateProvider"];
@@ -42868,7 +42887,7 @@ function SettingsConfig($stateProvider) {
 
 exports.default = SettingsConfig;
 
-},{}],43:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

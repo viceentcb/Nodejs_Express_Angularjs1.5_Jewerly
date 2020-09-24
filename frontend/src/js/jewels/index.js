@@ -12,4 +12,8 @@ import JewelsCtrl from './jewels.controller';
 jewelsModule.controller('JewelsCtrl', JewelsCtrl);
 
 
+// Details Jewels
+import Jewels_det_Ctrl from './jewelsdetails.controller';
+jewelsModule.controller('Jewels_det_Ctrl', Jewels_det_Ctrl);
+
 export default jewelsModule;
