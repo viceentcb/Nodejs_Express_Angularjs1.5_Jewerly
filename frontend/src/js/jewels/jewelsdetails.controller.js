@@ -6,7 +6,8 @@ class Jewels_det_Ctrl {
 
           this._$scope = $scope;
 
-          $scope.jewel= jewel
+          // $scope.jewel= 
+          this.jewel=jewel
 
           
           this.filter = $stateParams.filter;

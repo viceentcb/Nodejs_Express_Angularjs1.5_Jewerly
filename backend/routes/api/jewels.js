@@ -125,6 +125,10 @@ router.put('/:jewel', auth.required, function (req, res, next) {
         req.jewel.body = req.body.jewel.type;
       }
 
+      if (typeof req.body.jewel.price !== 'undefined') {
+        req.jewel.body = req.body.jewel.price;
+      }
+
       if (typeof req.body.jewel.tagList !== 'undefined') {
         req.jewel.tagList = req.body.jewel.tagList
       }

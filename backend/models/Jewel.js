@@ -8,6 +8,7 @@ var JewelSchema = new mongoose.Schema({
   name: String,
   brand: String,
   type: String,
+  price: Number,
   favoritesCount: { type: Number, default: 0 },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   tagList: [{ type: String }],
@@ -44,12 +45,14 @@ JewelSchema.methods.toJSONFor = function (user) {
     name: this.name,
     brand: this.brand,
     type: this.type,
+    price: this.price,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
     tagList: this.tagList,
     favorited: user ? user.isFavorite(this._id) : false,
     favoritesCount: this.favoritesCount,
     owner: this.owner.toProfileJSONFor(user)
+  
   };
 };
 

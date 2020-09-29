@@ -6,11 +6,8 @@ class JewelsCtrl {
 
           this._$scope = $scope;
 
-          $scope.jewels= jewels
-
+          this.jewels=jewels
           
-          this.filter = $stateParams.filter;
-
         }
     }
 

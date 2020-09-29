@@ -43,14 +43,7 @@
 
           </ul>
 
-          <div class="jewels" ng-repeat="jewel in jewels">
-            <h2> {{jewel.name}}</h2>
-            <p id="brand">{{jewel.brand}}</p>
-            <!-- <li class="tag-default tag-pill tag-outline" ng-repeat="tag in $ctrl.jewel.tagList">
-              {{tag}}
-            </li> -->
-            <button ui-sref="app.detailsJewels({slug:jewel.slug})">Show jewel</button>
-          </div>
+          <jewels-list jewels="$ctrl.jewels"></jewels-list>
         </div>
 
         <!-- List the current articles -->
