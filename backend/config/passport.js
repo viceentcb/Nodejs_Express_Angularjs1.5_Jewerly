@@ -26,13 +26,29 @@ passport.deserializeUser((id, done) => {
 passport.use(new LocalStrategy({
   usernameField: 'user[email]',
   passwordField: 'user[password]'
-}, function(email, password, done) {
-  User.findOne({email: email}).then(function(user){
-    if(!user || !user.validPassword(password)){
-      return done(null, false, {errors: {'email or password': 'is invalid'}});
-    }
+}, function (email, password, done) {
+  User.findOne({ email: email }).then(function (user1) {
+    console.log("LOCAL LOCAL LOCAL LOCAL LOCAL")
 
-    return done(null, user);
+    console.log("user =" + user1)
+    console.log("user =" + user1.id_social)
+    console.log("user =" + user1.username)
+
+
+    User.findOne({ email: user1.email, id_social: user1.username }).then(function (user) {
+
+      console.log("IDSOCIAL IDSOCIAL IDSOCIAL IDSOCIAL")
+      console.log("user =" + user)
+      console.log("user =" + user.id_social)
+      console.log("user =" + user.username)
+
+      if (!user || !user.validPassword(password)) {
+
+        return done(null, false, { errors: { 'email or password': 'is invalid' } })
+      }
+      return done(null, user);
+    }).catch(done);
+
   }).catch(done);
 }));
 
@@ -44,35 +60,37 @@ passport.use(new GitHubStrategy({
   callbackURL: socialKeys.GITHUB_CALLBACK,
   scope: 'user:email',
   passReqToCallback: true
-  },
-  function(request, accessToken, refreshToken, profile, done) {
-    console.log('profile= ' + profile )
-    console.log('profile= ' + profile.id.toString() )
-    User.findOne({id_social:profile.id.toString()}, function(err, user) {
-      console.log("user= "+ user)
-        if (err)
-          return done(err);
-        // if the user is found then log them in
-        if (user) {
-            return done(null, user);
+},
+  function (request, accessToken, refreshToken, profile, done) {
+    console.log('profile= ' + profile)
+    console.log('profile= ' + profile.id.toString())
+    User.findOne({ id_social: profile.id.toString() }, function (err, user) {
+      console.log("user= " + user)
+
+
+      if (err)
+        return done(err);
+      // if the user is found then log them in
+      if (user) {
+        return done(null, user);
+      } else {
+        if (!profile.emails[0].value) {
+          return done("The email is private");
         } else {
-          if(!profile.emails[0].value){
-            return done("The email is private");
-          }else{
-            var user = new User({
-                id_social: profile.id,
-                username: profile.username,
-                type: "client",
-                email: profile.emails[0].value,
-                image: profile.photos[0].value,
-            });
-            user.save(function(err) {
-                //if(err){
-                  console.log(err);
-                    return done(null, user);
-                //}
-            });
-          }
+          var user = new User({
+            id_social: profile.id,
+            username: profile.username,
+            type: "client",
+            email: profile.emails[0].value,
+            image: profile.photos[0].value,
+          });
+          user.save(function (err) {
+            //if(err){
+            console.log(err);
+            return done(null, user);
+            //}
+          });
+        }
       }
     });
   }
