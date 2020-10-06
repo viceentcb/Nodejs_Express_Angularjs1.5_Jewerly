@@ -4,6 +4,8 @@ var mongoose = require('mongoose');
 const { required } = require('../routes/auth');
 var User = mongoose.model('User');
 var GitHubStrategy = require('passport-github2').Strategy;
+var GoogleStrategy = require('passport-google-oauth2').Strategy;
+
 var socialKeys = require('../credentials/credentials.json');
 
 
@@ -83,6 +85,45 @@ passport.use(new GitHubStrategy({
             type: "client",
             email: profile.emails[0].value,
             image: profile.photos[0].value,
+          });
+          user.save(function (err) {
+            //if(err){
+            console.log(err);
+            return done(null, user);
+            //}
+          });
+        }
+      }
+    });
+  }
+));
+
+passport.use(new GoogleStrategy({
+  clientID: socialKeys.GOOGLE_CLIENT_ID,
+  clientSecret: socialKeys.GOOGLE_CLIENT_SECRET,
+  callbackURL: socialKeys.GOOGLE_CALLBACK,
+  passReqToCallback: true
+},
+  function (request, accessToken, refreshToken, profile, done) {
+    console.log("profile= ", profile)
+    console.log('profile= ' , profile.id.toString())
+    User.findOne({ id_social: profile.id.toString() }, function (err, user) {
+      console.log("user= ", user)
+      if (err)
+        return done(err);
+      // if the user is found then log them in
+      if (user) {
+        return done(null, user);
+      } else {
+        if (!profile.emails[0].value) {
+          return done("The email is private");
+        } else {
+          var user = new User({
+            id_social: profile.id,
+            username: profile.given_name,
+            type: "client",
+            email: profile.email,
+            image: profile.picture,
           });
           user.save(function (err) {
             //if(err){

@@ -105,6 +105,15 @@ router.post("/users/sociallogin", function (req, res) {
   });
 });
 
+
+router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get("/auth/google/callback",
+  passport.authenticate("google", {
+    successRedirect: "http://localhost:4000/#!/auth/sociallogin",
+    failureRedirect: "/"
+  }));
+
+
 router.get("/auth/github", passport.authenticate("github"));
 router.get("/auth/github/callback",
   passport.authenticate("github", {

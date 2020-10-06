@@ -14,7 +14,7 @@
             Need an account?
           </a>
         </p>
-        <a href="http://localhost:3000/api/auth/github" style="font-size: 25px; color:black"><i class="ion-social-github"></i>&nbsp;Github</a>
+        
 
         <list-errors errors="$ctrl.errors"></list-errors>
 
@@ -42,13 +42,24 @@
                 ng-model="$ctrl.formData.password" />
             </fieldset>
 
-            <button class="btn btn-lg btn-primary pull-xs-right"
+            <div align="center">
+
+            <a href="http://localhost:3000/api/auth/google" style="font-size: 25px; color:black"><i class="ion-social-google"></i>&nbsp;</a>
+            <a href="http://localhost:3000/api/auth/github" style="font-size: 25px; color:black"><i class="ion-social-github"></i>&nbsp;</a>
+          </div>
+
+          <div align="center">
+
+            <button" class="btn btn-lg btn-primary"
               type="submit"
               ng-bind="::$ctrl.title">
             </button>
+          </div>
 
           </fieldset>
         </form>
+
+       
       </div>
 
     </div>
