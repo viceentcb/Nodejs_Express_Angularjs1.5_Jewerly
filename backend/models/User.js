@@ -5,8 +5,9 @@ var jwt = require('jsonwebtoken');
 var secret = require('../config').secret;
 
 var UserSchema = new mongoose.Schema({
-  username: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'], index: true },
-  email: { type: String, lowercase: true, unique: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'], index: true },
+  id_social:{type:  String, unique: true},
+  username: { type: String, lowercase: true, unique: false, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'] },
+  email: { type: String, lowercase: true, unique: false, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid']},
   bio: String,
   image: String,
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Jewel' }],
@@ -41,6 +42,7 @@ UserSchema.methods.generateJWT = function () {
 
 UserSchema.methods.toAuthJSON = function () {
   return {
+    id_social:this.id_social,
     username: this.username,
     email: this.email,
     token: this.generateJWT(),
@@ -50,7 +52,9 @@ UserSchema.methods.toAuthJSON = function () {
 };
 
 UserSchema.methods.toProfileJSONFor = function (user) {
+  console.log('json',user);
   return {
+    id_social:this.id_social,
     username: this.username,
     bio: this.bio,
     image: this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
