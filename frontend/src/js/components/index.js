@@ -21,4 +21,10 @@ componentsModule.component('jewelsList', JewelsList);
 import JewelDetail from './jewels-helpers/jewel_detail.component';
 componentsModule.component('jewelDetail', JewelDetail);
 
+import JewelsFilters from './jewels-helpers/jewels_filters.component';
+componentsModule.component('jewelsFilters', JewelsFilters);
+
+import Slider from './slider-helpers/slider.component';
+componentsModule.component('slider', Slider);
+
 export default componentsModule;

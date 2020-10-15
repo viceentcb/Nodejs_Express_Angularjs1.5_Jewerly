@@ -1,5 +1,5 @@
 <div class="home-page">
-
+<slider></slider>
   <!-- Splash banner that only shows when not logged in -->
   <div class="banner" show-authed="false">
     <div class="container">
@@ -31,6 +31,7 @@
                 ng-click="$ctrl.changeList({ type: 'all' })">
                 Global Feed
               </a>
+              <br/>
             </li>
 
 
@@ -43,8 +44,14 @@
 
           </ul>
 
-          <jewels-list jewels="$ctrl.jewels"></jewels-list>
+          <jewels-filters filters="$ctrl.filters"></jewels-filters>
+
+          
+          <!-- <jewels-list jewels="$ctrl.jewels"></jewels-list> -->
+
+          
         </div>
+
 
         <!-- List the current articles -->
         <article-list limit="10" list-config="$ctrl.listConfig"></article-list>
@@ -52,7 +59,7 @@
       </div>
 
       <!-- Sidebar where popular tags are listed -->
-      <div class="col-md-3">
+      <!-- <div class="col-md-3">
         <div class="sidebar">
 
           <p>Popular Tags</p>
@@ -73,7 +80,7 @@
           </div>
 
         </div>
-      </div>
+      </div> -->
 
       <!-- End the row & container divs -->
     </div>

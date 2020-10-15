@@ -69,16 +69,47 @@ router.post('/users/login', function (req, res, next) {
 });
 
 router.post('/users', function (req, res, next) {
-  var user = new User();
-  user.id_social = req.body.user.username;
-  user.username = req.body.user.username;
-  user.email = req.body.user.email;
-  user.setPassword(req.body.user.password);
 
-  user.save().then(function () {
-    return res.json({ user: user.toAuthJSON() });
-  }).catch(next);
+  // console.log(req.body.user)
+  User.find({ id_social: req.body.user.username }).then(function (user) {
+      console.log(user[0]);
+
+    if (user[0]) {
+      console.log("Nombre de usuario en uso")
+      return res.status(422).json("This username are already created");
+    } else {
+      var user = new User();
+      user.id_social = req.body.user.username;
+      user.username = req.body.user.username;
+      user.email = req.body.user.email;
+      user.setPassword(req.body.user.password);
+
+      user.save().then(function () {
+        return res.json({ user: user.toAuthJSON() });
+      }).catch(next);
+    }
+
+  //   if (user[0]) {
+  //     console.log("Nombre de usuario en uso")
+  //     return res.status(422).json("This username are already created");
+  //   } else if (checkmail(req.body.user) === true) {
+  //     console.log("Correo electronico en uso")
+  //     return res.status(422).json("This email are already created");
+  //   } else {
+  //     var user = new User();
+  //     user.id_social = req.body.user.username;
+  //     user.username = req.body.user.username;
+  //     user.email = req.body.user.email;
+  //     user.setPassword(req.body.user.password);
+  //     user.save().then(function () {
+  //       return res.json({ user: user.toAuthJSON() });
+  //     }).catch(next);
+  //   }
+
+
+  });
 });
+
 
 
 router.post("/users/sociallogin", function (req, res) {
@@ -121,7 +152,17 @@ router.get("/auth/github/callback",
     failureRedirect: "/"
   }));
 
+// let checkmail = function (user_info) {
+//   User.find({ "$expr": { "$eq": ["$id_social", "$username"] }, email: user_info.email }, { email: 1, _id: 0 })
+//     .then(function (user) {
 
+      // let key= (user[0]? true:false)
+      // return key
 
+      // --------------------------------------
+      // return (user[0]? true:false)
+
+//     })
+// }
 
 module.exports = router;

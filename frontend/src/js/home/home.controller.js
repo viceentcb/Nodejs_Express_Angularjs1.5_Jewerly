@@ -1,5 +1,5 @@
 class HomeCtrl {
-  constructor(User, jewels, Tags, AppConstants, $scope) {
+  constructor(User, jewels, Tags, AppConstants, $scope, $stateParams) {
     'ngInject';
 
 
@@ -10,6 +10,56 @@ class HomeCtrl {
     // $scope.jewels= jewels
     this.jewels = jewels
 
+
+    let unique = [];
+    let filters = []
+
+    let all_filters = ['brand', 'type']
+
+    // all_filters.forEach(element =>
+    //   unique = Array.from(new Set((jewels).map(elm => {
+    //     console.log(elm[element])
+    //   }))),
+    //   console.log(unique),
+    // )
+
+    let fils=[]
+
+      for (i=0; i<all_filters.length; i++){
+        console.log(all_filters[i])
+        unique = Array.from(new Set((jewels).map(elm => (elm[all_filters[i]]))))
+        console.log(unique)
+        unique.forEach(element=>{
+          fils.push({ 'filter': element, 'hwfilter': all_filters[i], 'img': 'img/' + element + '.png'})
+        })
+        console.log(fils)
+      }
+
+    // ///FILTER BRANDS
+
+
+    // unique = Array.from(new Set((this.jewels).map(element => element.brand)))
+    // let brands = []
+    // unique.forEach(element => {
+    //   brands.push({ 'filter': element, 'hwfilter': 'brand', 'img': 'img/' + element + '_logo.png' })
+    // });
+    // filters.push(brands);
+
+    // ///////END FILTER BRANDS
+
+    // ///FILTER TYPE
+
+    // unique = Array.from(new Set((this.jewels).map(element => element.type)))
+    // let type = []
+    // unique.forEach(element => {
+    //   type.push({ 'filter': element, 'hwfilter': 'type', 'img': 'img/' + element + '.jpg' })
+    // });
+    // filters.push(type);
+
+    // ///////END FILTER TYPE
+
+    console.log(fils)
+    this.filters = fils
 
     // Get list of all tags
     Tags
@@ -40,11 +90,6 @@ class HomeCtrl {
       //BUSCAMOS CUAL ES EL PRECIO MAYOR DE LOS QUE TENEMOS EN LA ACTUAL ARRAY
       for (var i = 0; i < all.length; i++) {
 
-        // console.log("primer for")
-        // console.log("i= " + i)
-        // console.log(all[i]);
-        // console.log(all[i].price)
-        // console.log(price)
 
         if ((all[i].price) > (price)) {
           price = all[i].price
@@ -60,22 +105,13 @@ class HomeCtrl {
 
         if ((all[l].price) >= (price)) {
 
-          // console.log(all[l])
-          // alert("para1")
-          // console.log(j)
-          // alert("para2")
 
           j.push(all[l])
 
-          // console.log(j)
-          // alert("para3")
-          //   console.log(all)
 
           all = all.filter(item => item !== all[l])
 
-          // console.log(all)
-          // console.log(j)
-          // console.log(all.length)
+
         }
       }
 

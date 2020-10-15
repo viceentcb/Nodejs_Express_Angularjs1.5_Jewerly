@@ -6,7 +6,7 @@ function JewelsConfig($stateProvider) {
 
 
         .state("app.jewels", {
-            url: "/jewels",
+            url: "/jewels_:filter",
             controller: "JewelsCtrl",
             controllerAs: "$ctrl",
             templateUrl: "jewels/jewels.html",

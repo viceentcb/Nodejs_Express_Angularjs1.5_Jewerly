@@ -3,6 +3,7 @@ class JewelsListCtrl {
         'ngInject';
 
         this._$scope = $scope;
+
     }
 }
 
