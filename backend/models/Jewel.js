@@ -33,11 +33,14 @@ JewelSchema.methods.updateFavoriteCount = function () {
   var jewel = this;
 
   return User.count({ favorites: { $in: [jewel._id] } }).then(function (count) {
+
     jewel.favoritesCount = count;
 
     return jewel.save();
   });
 };
+
+
 
 JewelSchema.methods.toJSONFor = function (user) {
   return {

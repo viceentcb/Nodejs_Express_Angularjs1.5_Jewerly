@@ -47,7 +47,7 @@ class HomeCtrl {
 
     // ///////END FILTER BRANDS
 
-    // ///FILTER TYPE
+    // ///FILTER TYPEº
 
     // unique = Array.from(new Set((this.jewels).map(element => element.type)))
     // let type = []
