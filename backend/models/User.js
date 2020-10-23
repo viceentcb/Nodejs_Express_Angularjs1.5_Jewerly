@@ -19,6 +19,8 @@ var UserSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const User = mongoose.model('user', UserSchema)
+
+
 UserSchema.plugin(uniqueValidator, { message: 'is already taken.' });
 
 UserSchema.methods.validPassword = function (password) {
@@ -50,8 +52,8 @@ UserSchema.methods.toAuthJSON = function () {
     email: this.email,
     token: this.generateJWT(),
     bio: this.bio,
-    image: this.image
-  };
+    image: this.image,
+    followersCount:this.followersCount  };
 };
 
 UserSchema.methods.toProfileJSONFor = function (user) {
@@ -61,6 +63,7 @@ UserSchema.methods.toProfileJSONFor = function (user) {
     username: this.username,
     bio: this.bio,
     image: this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
+    followersCount:this.followersCount,
     following: user ? user.isFollowing(this._id) : false
   };
 };

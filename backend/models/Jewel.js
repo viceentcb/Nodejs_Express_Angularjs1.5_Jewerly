@@ -11,9 +11,13 @@ var JewelSchema = new mongoose.Schema({
   price: Number,
   favoritesCount: { type: Number, default: 0 },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
+  commentsCount: { type: Number, default: 0 },
   tagList: [{ type: String }],
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, { timestamps: true });
+
+
+const Jewel = mongoose.model('jewel', JewelSchema)
 
 JewelSchema.plugin(uniqueValidator, { message: 'is already taken' });
 
@@ -41,6 +45,20 @@ JewelSchema.methods.updateFavoriteCount = function () {
 };
 
 
+JewelSchema.methods.updateComentsCount = function () {
+  let jewel = this;
+
+  // return Jewel.aggregate([{ "$match": { name: "Submarine" } }, { "$project": { count: { "$size": "$comments" } } }])
+  //   .exec()
+  return Jewel.find({ _id: jewel._id }, { comments: 1, _id: 0 }).then(function(data){
+    jewel.commentsCount = data[0].comments.length;
+    return jewel.save();
+  })
+
+  // return true
+  // console.log("---------------------------------------------------------")
+  // console.log(count)
+};
 
 JewelSchema.methods.toJSONFor = function (user) {
   return {
@@ -55,7 +73,7 @@ JewelSchema.methods.toJSONFor = function (user) {
     favorited: user ? user.isFavorite(this._id) : false,
     favoritesCount: this.favoritesCount,
     owner: user ? user.toProfileJSONFor(user) : this.owner.toProfileJSONFor(user)
-  
+
   };
 };
 

@@ -49,7 +49,7 @@ router.get('/', auth.optional, function (req, res, next) {
   var query = {};
   var limit = 20;
   var offset = 0;
-  
+
   Promise.all([
     req.query.owner ? User.findOne({ username: req.query.owner }) : null,
     req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
@@ -158,38 +158,41 @@ router.delete('/:jewel', auth.required, function (req, res, next) {
 });
 
 // Favorite an jewel
-router.post('/:jewel/favorite', auth.required, function(req, res, next) {
+router.post('/:jewel/favorite', auth.required, function (req, res, next) {
   var jewelId = req.jewel._id;
 
-  User.findById(req.payload.id).then(function(user){
+  User.findById(req.payload.id).then(function (user) {
     if (!user) { return res.sendStatus(401); }
 
-    return user.favorite(jewelId).then(function(){
-      return req.jewel.updateFavoriteCount().then(function(jewel){
-        return res.json({jewel: jewel.toJSONFor(user)});
+    return user.favorite(jewelId).then(function () {
+      return req.jewel.updateFavoriteCount().then(function (jewel) {
+        return res.json({ jewel: jewel.toJSONFor(user) });
       });
     });
   }).catch(next);
 });
 
 // // // Unfavorite an jewel
-router.delete('/:jewel/favorite', auth.required, function(req, res, next) {
+router.delete('/:jewel/favorite', auth.required, function (req, res, next) {
   var jewelId = req.jewel._id;
 
-  User.findById(req.payload.id).then(function (user){
+  User.findById(req.payload.id).then(function (user) {
     if (!user) { return res.sendStatus(401); }
 
-    return user.unfavorite(jewelId).then(function(){
-      return req.jewel.updateFavoriteCount().then(function(jewel){
-        return res.json({jewel: jewel.toJSONFor(user)});
+    return user.unfavorite(jewelId).then(function () {
+      console.log(req.jewel)
+      return req.jewel.updateFavoriteCount().then(function (jewel) {
+        return res.json({ jewel: jewel.toJSONFor(user) });
       });
     });
   }).catch(next);
 });
 
 // // return an jewel's comments
-router.get('/:jewel/comments', auth.optional, function(req, res, next){
-  Promise.resolve(req.payload ? User.findById(req.payload.id) : null).then(function(user){
+router.get('/:jewel/comments', auth.optional, function (req, res, next) {
+  console.log(req.jewel);
+  Promise.resolve(req.payload ? User.findById(req.payload.id) : null).then(function (user) {
+    console.log(user)
     return req.jewel.populate({
       path: 'comments',
       populate: {
@@ -200,41 +203,47 @@ router.get('/:jewel/comments', auth.optional, function(req, res, next){
           createdAt: 'desc'
         }
       }
-    }).execPopulate().then(function(jewel) {
-      return res.json({comments: req.jewel.comments.map(function(comment){
-        return comment.toJSONFor(user);
-      })});
+    }).execPopulate().then(function (jewel) {
+      return res.json({
+        comments: req.jewel.comments.map(function (comment) {
+          return comment.toJSONFor(user);
+        })
+      });
     });
   }).catch(next);
 });
 
 // // // create a new comment
-router.post('/:jewel/comments', auth.required, function(req, res, next) {
-  User.findById(req.payload.id).then(function(user){
-    if(!user){ return res.sendStatus(401); }
+router.post('/:jewel/comments', auth.required, function (req, res, next) {
+  User.findById(req.payload.id).then(function (user) {
+    if (!user) { return res.sendStatus(401); }
 
     var comment = new Comment(req.body.comment);
     comment.jewel = req.jewel;
     comment.author = user;
-
-    return comment.save().then(function(){
-      req.jewel.comments.push(comment);
-
-      return req.jewel.save().then(function(jewel) {
-        res.json({comment: comment.toJSONFor(user)});
+    return comment.save().then(function () {
+      req.jewel.comments = req.jewel.comments.concat([comment]);
+      return req.jewel.save().then(function () {
+        // console.log(req.jewel)
+        req.jewel.updateComentsCount().then(function(){
+          res.json({ comment: comment.toJSONFor(user) });
+        });
       });
     });
   }).catch(next);
 });
 
-router.delete('/:jewel/comments/:comment', auth.required, function(req, res, next) {
-  if(req.comment.author.toString() === req.payload.id.toString()){
+router.delete('/:jewel/comments/:comment', auth.required, function (req, res, next) {
+  if (req.comment.author.toString() === req.payload.id.toString()) {
     req.jewel.comments.remove(req.comment._id);
-    req.jewel.save()
-      .then(Comment.find({_id: req.comment._id}).remove().exec())
-      .then(function(){
+    req.jewel.save().then(Comment.find({ _id: req.comment._id }).remove().exec())
+    .then(function(){
+      req.jewel.updateComentsCount()
+      .then(function () {
         res.sendStatus(204);
-      });
+      })
+    })
+
   } else {
     res.sendStatus(403);
   }
