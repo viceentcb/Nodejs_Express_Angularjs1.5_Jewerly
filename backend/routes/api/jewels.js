@@ -28,7 +28,6 @@ router.param('comment', function (req, res, next, id) {
 });
 
 //Feed 
-//Return feed jewel 
 router.get('/feed', auth.required, function(req, res, next) {
   var limit = 20;
   var offset = 0;
@@ -65,7 +64,6 @@ router.get('/feed', auth.required, function(req, res, next) {
       }).catch(next);
   });
 });
-
 
 // return all jewells
 router.get('/', auth.optional, function(req, res, next) {

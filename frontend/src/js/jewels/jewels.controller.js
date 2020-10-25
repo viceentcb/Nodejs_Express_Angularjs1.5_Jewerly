@@ -1,5 +1,5 @@
 class JewelsCtrl {
-  constructor(jewels, $scope, $stateParams, User) {
+  constructor(jewels, $scope, $stateParams, User, Tags) {
     "ngInject";
 
 
@@ -8,14 +8,14 @@ class JewelsCtrl {
 
     // console.log(jewels)
 
-    // Tags
-    // .getAll()
-    // .then(
-    //     (tags) => {
-    //         this.tagsLoaded = true;
-    //         this.tags = tags
-    //     }
-    // );
+    Tags
+    .getAll()
+    .then(
+        (tags) => {
+            this.tagsLoaded = true;
+            this.tags = tags
+        }
+    );
     // console.log("thistags",this.tags)
 
     // console.log($stateParams.filter)
