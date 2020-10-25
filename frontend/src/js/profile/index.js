@@ -11,8 +11,8 @@ profileModule.config(ProfileConfig);
 import ProfileCtrl from './profile.controller';
 profileModule.controller('ProfileCtrl', ProfileCtrl);
 
-import ProfileArticlesCtrl from './profile-articles.controller';
-profileModule.controller('ProfileArticlesCtrl', ProfileArticlesCtrl);
+import ProfileJewelsCtrl from './profile-jewels.controller';
+profileModule.controller('ProfileJewelsCtrl', ProfileJewelsCtrl);
 
 
 export default profileModule;

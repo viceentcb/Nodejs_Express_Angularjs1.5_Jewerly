@@ -30,4 +30,7 @@ componentsModule.component('jewelsFilters', JewelsFilters);
 import Slider from './slider-helpers/slider.component';
 componentsModule.component('slider', Slider);
 
+import ListPagination from './jewels-helpers/list-pagination.component';
+componentsModule.component('listPagination', ListPagination);
+
 export default componentsModule;

@@ -36,9 +36,9 @@ class JewelsListCtrl {
 
     //pagination
 
-    // $scope.$on('setPageTo', (ev, pageNumber) => {
-    //   this.setPageTo(pageNumber);
-    // });
+    $scope.$on('setPageTo', (ev, pageNumber) => {
+      this.setPageTo(pageNumber);
+    });
 
 
   }//end_constructor
@@ -49,11 +49,11 @@ class JewelsListCtrl {
     this.runQuery();
   }
 
-  // setPageTo(pageNumber) {
-  //   this.listConfig.currentPage = pageNumber;
+  setPageTo(pageNumber) {
+    this.listConfig.currentPage = pageNumber;
 
-  //   this.runQuery();
-  // }
+    this.runQuery();
+  }
 
 
   runQuery() {
@@ -76,7 +76,7 @@ class JewelsListCtrl {
     }
 
     // Add the offset filter
-    // queryConfig.filters.offset = (this.limit * (this.listConfig.currentPage - 1));
+    queryConfig.filters.offset = (this.limit * (this.listConfig.currentPage - 1));
 
     // Run the query
     this._Jewel

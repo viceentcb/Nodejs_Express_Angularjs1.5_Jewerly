@@ -67,40 +67,62 @@ router.get('/feed', auth.required, function(req, res, next) {
 });
 
 
-
-
 // return all jewells
-router.get('/', auth.optional, function (req, res, next) {
+router.get('/', auth.optional, function(req, res, next) {
   var query = {};
   var limit = 20;
   var offset = 0;
 
+  if (typeof req.query.limit !== 'undefined') {
+      limit = req.query.limit;
+  }
+
+  if (typeof req.query.offset !== 'undefined') {
+      offset = req.query.offset;
+  }
+
+  if (typeof req.query.tag !== 'undefined') {
+      query.tagList = { "$in": [req.query.tag] };
+  }
+
   Promise.all([
-    req.query.owner ? User.findOne({ username: req.query.owner }) : null,
-    req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
-  ]).then(function (results) {
+      req.query.owner ? User.findOne({ username: req.query.owner }) : null,
+      req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
+  ]).then(function(results) {
+      var owner = results[0];
+      var favoriter = results[1];
 
-    return Promise.all([
-      Jewel.find(query)
-        .limit(Number(limit))
-        .skip(Number(offset))
-        .sort({ createdAt: 'desc' })
-        .populate('owner')
-        .exec(),
-      Jewel.count(query).exec(),
-      req.payload ? User.findById(req.payload.id) : null,
-    ]).then(function (results) {
-      var jewels = results[0];
-      var jewelsCount = results[1];
-      var user = results[2];
+      if (owner) {
+          query.owner = owner._id;
+      }
 
-      return res.json({
-        jewels: jewels.map(function (jewel) {
-          return jewel.toJSONFor(user);
-        }),
-        jewelsCount: jewelsCount
+      if (favoriter) {
+          query._id = { $in: favoriter.favorites };
+      } else if (req.query.favorited) {
+          query._id = { $in: [] };
+      }
+
+      return Promise.all([
+          Jewel.find(query)
+          .limit(Number(limit))
+          .skip(Number(offset))
+          .sort({ createdAt: 'desc' })
+          .populate('owner')
+          .exec(),
+          Jewel.count(query).exec(),
+          req.payload ? User.findById(req.payload.id) : null,
+      ]).then(function(results) {
+          var jewels = results[0];
+          var jewelsCount = results[1];
+          var user = results[2];
+
+          return res.json({
+              jewels: jewels.map(function(jewel) {
+                  return jewel.toJSONFor(user);
+              }),
+              jewelsCount: jewelsCount
+          });
       });
-    });
   }).catch(next);
 });
 //
