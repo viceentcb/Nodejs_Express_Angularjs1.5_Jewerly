@@ -2,7 +2,7 @@ let JewelPreview = {
     bindings: {
         jewel: '='
     },
-    templateUrl: 'components/jewel-helpers/jewel-preview.html'
+    templateUrl: 'components/jewels-helpers/jewel-preview.html'
 };
 
 

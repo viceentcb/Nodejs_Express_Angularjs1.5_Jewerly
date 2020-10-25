@@ -8,7 +8,6 @@ export default class Jewels {
     }
 
     query(config) {
-        console.log(config.type)
         let request = {
             url: this._AppConstants.api + '/jewels' + ((config.type == 'feed') ? '/feed' : ''),
             method: 'GET',

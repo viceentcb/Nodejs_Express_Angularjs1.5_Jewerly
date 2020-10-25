@@ -23,7 +23,6 @@ class JewelsListCtrl {
   constructor(Jewels, $scope) {
     "ngInject";
 
-    console.log("estamos aca")
     this._$scope = $scope;
     this._Jewel = Jewels;
 

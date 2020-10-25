@@ -38,7 +38,7 @@ class JewelsCtrl {
 
     }
 
-
+    console.log("USER",User.current)
     this.listConfig = {
       type: User.current ? 'feed' : 'all'
     };

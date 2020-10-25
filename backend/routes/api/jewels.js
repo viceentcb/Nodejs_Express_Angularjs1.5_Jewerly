@@ -5,16 +5,16 @@ var Comment = mongoose.model('Comment');
 var User = mongoose.model('User');
 var auth = require('../auth');
 
-router.param('jewel', function(req, res, next, slug) {
+router.param('jewel', function (req, res, next, slug) {
   Jewel.findOne({ slug: slug })
-      .populate('owner')
-      .then(function(jewel) {
-          if (!jewel) { return res.sendStatus(404); }
+    .populate('owner')
+    .then(function (jewel) {
+      if (!jewel) { return res.sendStatus(404); }
 
-          req.jewel = jewel;
+      req.jewel = jewel;
 
-          return next();
-      }).catch(next);
+      return next();
+    }).catch(next);
 });
 
 router.param('comment', function (req, res, next, id) {
@@ -28,8 +28,8 @@ router.param('comment', function (req, res, next, id) {
 });
 
 //Feed 
-router.get('/feed', function(req, res, next) {
-  console.log("-------------------------------------------------")
+//Return feed jewel 
+router.get('/feed', auth.required, function(req, res, next) {
   var limit = 20;
   var offset = 0;
 
@@ -43,7 +43,8 @@ router.get('/feed', function(req, res, next) {
 
   User.findById(req.payload.id).then(function(user) {
       if (!user) { return res.sendStatus(401); }
-
+      console.log("--------------------------------")
+      console.log(user)
       Promise.all([
           Jewel.find({ owner: { $in: user.following } })
           .limit(Number(limit))
@@ -105,14 +106,14 @@ router.get('/', auth.optional, function (req, res, next) {
 //
 
 //obtain a jewel by slug
-router.get('/:jewel', auth.optional, function(req, res, next) {
+router.get('/:jewel', auth.optional, function (req, res, next) {
   Promise.all([
-      req.payload ? User.findById(req.payload.id) : null,
-      req.jewel.populate('author').execPopulate()
-  ]).then(function(results) {
-      var user = results[0];
+    req.payload ? User.findById(req.payload.id) : null,
+    req.jewel.populate('author').execPopulate()
+  ]).then(function (results) {
+    var user = results[0];
 
-      return res.json({ jewel: req.jewel.toJSONFor(user) });
+    return res.json({ jewel: req.jewel.toJSONFor(user) });
   }).catch(next);
 });
 
@@ -127,7 +128,6 @@ router.post('/', auth.required, function (req, res, next) {
     jewel.owner = user;
 
     return jewel.save().then(function () {
-      console.log(jewel.owner);
       return res.json({ jewel: jewel.toJSONFor(user) });
     });
   }).catch(next);
@@ -206,7 +206,6 @@ router.delete('/:jewel/favorite', auth.required, function (req, res, next) {
     if (!user) { return res.sendStatus(401); }
 
     return user.unfavorite(jewelId).then(function () {
-      console.log(req.jewel)
       return req.jewel.updateFavoriteCount().then(function (jewel) {
         return res.json({ jewel: jewel.toJSONFor(user) });
       });
@@ -216,9 +215,7 @@ router.delete('/:jewel/favorite', auth.required, function (req, res, next) {
 
 // // return an jewel's comments
 router.get('/:jewel/comments', auth.optional, function (req, res, next) {
-  console.log(req.jewel);
   Promise.resolve(req.payload ? User.findById(req.payload.id) : null).then(function (user) {
-    console.log(user)
     return req.jewel.populate({
       path: 'comments',
       populate: {
@@ -251,7 +248,7 @@ router.post('/:jewel/comments', auth.required, function (req, res, next) {
       req.jewel.comments = req.jewel.comments.concat([comment]);
       return req.jewel.save().then(function () {
         // console.log(req.jewel)
-        req.jewel.updateComentsCount().then(function(){
+        req.jewel.updateComentsCount().then(function () {
           res.json({ comment: comment.toJSONFor(user) });
         });
       });
@@ -260,15 +257,15 @@ router.post('/:jewel/comments', auth.required, function (req, res, next) {
 });
 
 router.delete('/:jewel/comments/:comment', auth.required, function (req, res, next) {
-  if ((req.comment.author.toString() === req.payload.id.toString()) || (req.jewel.owner._id.toString()=== req.payload.id.toString())) {
+  if ((req.comment.author.toString() === req.payload.id.toString()) || (req.jewel.owner._id.toString() === req.payload.id.toString())) {
     req.jewel.comments.remove(req.comment._id);
     req.jewel.save().then(Comment.find({ _id: req.comment._id }).remove().exec())
-    .then(function(){
-      req.jewel.updateComentsCount()
       .then(function () {
-        res.sendStatus(204);
+        req.jewel.updateComentsCount()
+          .then(function () {
+            res.sendStatus(204);
+          })
       })
-    })
 
   } else {
     res.sendStatus(403);
