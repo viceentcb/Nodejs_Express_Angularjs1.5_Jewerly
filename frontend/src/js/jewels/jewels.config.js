@@ -13,7 +13,6 @@ function JewelsConfig($stateProvider) {
             title: "Lista de Noticias",
             resolve: {
                 jewels: function (Jewels) {
-                    console.log('noticias confign')//newss the name that are in json of server
                     return Jewels.getJewels().then(jewels => jewels);
                 }
             }

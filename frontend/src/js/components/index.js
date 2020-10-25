@@ -15,8 +15,11 @@ componentsModule.component('followBtn', FollowBtn);
 import FavoriteBtn from './buttons/favorite-btn.component';
 componentsModule.component('favoriteBtn', FavoriteBtn);
 
-import JewelsList from './jewels-helpers/jewels_list.component';
+import JewelsList from './jewels-helpers/jewels-list.component';
 componentsModule.component('jewelsList', JewelsList);
+
+import JewelPreview from './jewels-helpers/jewel-preview.component';
+componentsModule.component('jewelPreview', JewelPreview);
 
 import JewelDetail from './jewels-helpers/jewel_detail.component';
 componentsModule.component('jewelDetail', JewelDetail);

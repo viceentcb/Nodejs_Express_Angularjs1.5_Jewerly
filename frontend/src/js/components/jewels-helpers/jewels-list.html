@@ -1,0 +1,23 @@
+<!-- <div class="jewels" ng-repeat="jewel in $ctrl.jewels">
+  <h2> {{jewel.name}}</h2>
+  <p id="brand">{{jewel.brand}}</p>
+  <p id="price">{{jewel.price}}</p>
+  <button ui-sref="app.detailsJewels({slug:jewel.slug})">Show jewel</button>
+</div> -->
+
+
+<jewel-preview jewel="jewel" ng-repeat="jewel in $ctrl.list">
+</jewel-preview>
+
+
+<div class="jewel-preview" ng-hide="!$ctrl.loading">
+    Cargando Noticias...
+</div>
+
+<div class="jewel-preview" ng-show="!$ctrl.loading && !$ctrl.list.length">
+  Aún no hay noticias...
+</div>
+
+<!-- <list-pagination total-pages="$ctrl.listConfig.totalPages" current-page="$ctrl.listConfig.currentPage"
+    ng-hide="$ctrl.listConfig.totalPages <= 1">
+</list-pagination> -->

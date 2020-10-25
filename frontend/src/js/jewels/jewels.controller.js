@@ -1,41 +1,52 @@
 class JewelsCtrl {
-    constructor(jewels, $scope, $stateParams, ) {
-        "ngInject";
-        console.log("controlador_jewel")
+  constructor(jewels, $scope, $stateParams, User) {
+    "ngInject";
 
 
-          this._$scope = $scope;
+    this._$scope = $scope;
 
-          
-          // console.log(jewels)
-          console.log($stateParams)
 
-          // console.log($stateParams.filter)
+    // console.log(jewels)
 
-          if(jewels){
+    // Tags
+    // .getAll()
+    // .then(
+    //     (tags) => {
+    //         this.tagsLoaded = true;
+    //         this.tags = tags
+    //     }
+    // );
+    // console.log("thistags",this.tags)
 
-            if($stateParams.filter){
-              // console.log(jewels)
-              let all_filter= $stateParams.filter.split(',')
-              console.log(all_filter)
-               let filter=all_filter[0]
-              let hwfilter=all_filter[1]
-              console.log(hwfilter)
-              console.log(jewels)
-              
-              this.jewels= jewels.filter(element=>element[hwfilter]==filter)
+    // console.log($stateParams.filter)
 
-              console.log(this.jewels)
-            }else{
-              console.log("elseeee")
-              console.log(jewels)
-              this.jewels=jewels
-  
-            }
+    if (jewels) {
 
-          }
+      if ($stateParams.filter) {
+        // console.log(jewels)
+        let all_filter = $stateParams.filter.split(',')
+        console.log(all_filter)
+        let filter = all_filter[0]
+        let hwfilter = all_filter[1]
 
-        }
+        this.jewels = jewels.filter(element => element[hwfilter] == filter)
+
+      } else {
+        this.jewels = jewels
+
+      }
+
     }
 
-    export default JewelsCtrl;
+
+    this.listConfig = {
+      type: User.current ? 'feed' : 'all'
+    };
+  }
+
+  changeList(newList) {
+    this._$scope.$broadcast('setListTo', newList);
+};
+}
+
+export default JewelsCtrl;

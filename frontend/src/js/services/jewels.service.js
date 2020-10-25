@@ -7,6 +7,15 @@ export default class Jewels {
         this._$q = $q;
     }
 
+    query(config) {
+        console.log(config.type)
+        let request = {
+            url: this._AppConstants.api + '/jewels' + ((config.type == 'feed') ? '/feed' : ''),
+            method: 'GET',
+            params: config.filters ? config.filters : null
+        };
+        return this._$http(request).then((res) => res.data);
+    }
 
     //All jewels
     getJewels() {
@@ -27,7 +36,6 @@ export default class Jewels {
         })
             .then(res => res.data.jewel);
     }
-
 
     favorite(slug) {
         return this._$http({
@@ -51,4 +59,6 @@ export default class Jewels {
             method: 'DELETE'
         })
     }
+
+
 }

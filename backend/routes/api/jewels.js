@@ -5,17 +5,16 @@ var Comment = mongoose.model('Comment');
 var User = mongoose.model('User');
 var auth = require('../auth');
 
-// Preload jewel objects on routes with ':jewel'
-router.param('jewel', function (req, res, next, slug) {
+router.param('jewel', function(req, res, next, slug) {
   Jewel.findOne({ slug: slug })
-    .populate('owner')
-    .then(function (jewel) {
-      if (!jewel) { return res.sendStatus(404); }
+      .populate('owner')
+      .then(function(jewel) {
+          if (!jewel) { return res.sendStatus(404); }
 
-      req.jewel = jewel;
+          req.jewel = jewel;
 
-      return next();
-    }).catch(next);
+          return next();
+      }).catch(next);
 });
 
 router.param('comment', function (req, res, next, id) {
@@ -28,21 +27,46 @@ router.param('comment', function (req, res, next, id) {
   }).catch(next);
 });
 
-//obtain all jewels
-// router.get("/", auth.optional, function (req, res, next) {
-//   Promise.resolve(
-//     req.payload ? User.findById(req.payload.id) : null
-//   ).then(
-//     (user) => {
+//Feed 
+router.get('/feed', function(req, res, next) {
+  console.log("-------------------------------------------------")
+  var limit = 20;
+  var offset = 0;
 
-//       Jewel.find()
-//         .then(function (jewels) {
-//           return res.json({ jewels: jewels.map(jewel => jewel.toJSONFor(user)) });
-//         })
-//         .catch(next);
-//     }
-//   )
-// });
+  if (typeof req.query.limit !== 'undefined') {
+      limit = req.query.limit;
+  }
+
+  if (typeof req.query.offset !== 'undefined') {
+      offset = req.query.offset;
+  }
+
+  User.findById(req.payload.id).then(function(user) {
+      if (!user) { return res.sendStatus(401); }
+
+      Promise.all([
+          Jewel.find({ owner: { $in: user.following } })
+          .limit(Number(limit))
+          .skip(Number(offset))
+          .populate('owner')
+          .exec(),
+          Jewel.count({ owner: { $in: user.following } })
+      ]).then(function(results) {
+          var jewels = results[0];
+          var jewelsCount = results[1];
+
+          return res.json({
+              jewels: jewels.map(function(jewel) {
+                  return jewel.toJSONFor(user);
+              }),
+              jewelsCount: jewelsCount
+          });
+      }).catch(next);
+  });
+});
+
+
+
 
 // return all jewells
 router.get('/', auth.optional, function (req, res, next) {
@@ -91,6 +115,7 @@ router.get('/:jewel', auth.optional, function(req, res, next) {
       return res.json({ jewel: req.jewel.toJSONFor(user) });
   }).catch(next);
 });
+
 
 //insert a jewel by owner
 router.post('/', auth.required, function (req, res, next) {

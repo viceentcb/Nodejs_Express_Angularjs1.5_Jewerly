@@ -1,0 +1,25 @@
+<div class="jewel-preview">
+    <div jewel="$ctrl.jewel">
+        <favorite-btn 
+        jewel="$ctrl.jewel" class="pull-xs-right ">
+            {{$ctrl.jewel.favoritesCount}}
+        </favorite-btn>
+    </div>
+
+    <a ui-sref="app.detailsJewel({slug:$ctrl.jewel.slug})" class="preview-link">
+        <h1 ng-bind="$ctrl.jewel.name"></h1>
+        <p ng-bind="$ctrl.jewel.price"></p>
+        <span>Read more...</span>
+        <ul class="tag-list">
+            <li class="tag-default tag-pill tag-outline"
+              ng-repeat="tag in $ctrl.jewel.tagList">
+              {{tag}}
+            </li>
+          </ul>
+    </a>
+
+
+
+
+</div>
+<hr>
