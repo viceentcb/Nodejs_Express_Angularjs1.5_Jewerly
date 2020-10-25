@@ -43,7 +43,7 @@
                 ng-model="$ctrl.formData.password" name="Password" ng-minlength="6" ng-maxlength="40" />
               <div ng-messages="formData.Password.$error">
                 <p ng-message="required" ng-show="formData.Password.$dirty">Password required</p>
-                <p ng-message="minlength">Password more than 6 char</p>
+                <p ng-message="minlength">Password more than 2 char</p>
                 <p ng-message="maxlength">Password less than 40 char</p>
               </div>
             </fieldset>

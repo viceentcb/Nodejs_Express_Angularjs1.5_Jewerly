@@ -10,7 +10,7 @@ export default class Comments {
   // Add a comment to an article
   add(slug, payload) {
     return this._$http({
-      url: `${this._AppConstants.api}/articles/${slug}/comments`,
+      url: `${this._AppConstants.api}/jewel/${slug}/comments`,
       method: 'POST',
       data: { comment: { body: payload } }
     }).then((res) => res.data.comment);
@@ -19,15 +19,15 @@ export default class Comments {
 
   getAll(slug) {
     return this._$http({
-      url: `${this._AppConstants.api}/articles/${slug}/comments`,
+      url: `${this._AppConstants.api}/jewel/${slug}/comments`,
       method: 'GET',
     }).then((res) => res.data.comments);
 
   }
 
-  destroy(commentId, articleSlug) {
+  destroy(commentId, jewelSlug) {
     return this._$http({
-      url: `${this._AppConstants.api}/articles/${articleSlug}/comments/${commentId}`,
+      url: `${this._AppConstants.api}/jewel/${jewelSlug}/comments/${commentId}`,
       method: 'DELETE',
     });
   }

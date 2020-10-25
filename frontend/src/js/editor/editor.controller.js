@@ -5,6 +5,8 @@ class EditorCtrl {
     this._Jewels = Jewels;
     this._$state = $state;
 
+    console.log(jewel)
+    console.log(Jewels)
     if (!jewel) {
       this.jewel = {
         title: '',

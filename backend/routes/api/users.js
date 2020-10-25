@@ -72,17 +72,21 @@ router.post('/users', function (req, res, next) {
 
   // console.log(req.body.user)
   User.find({ id_social: req.body.user.username }).then(function (user) {
-      console.log(user[0]);
 
     if (user[0]) {
       console.log("Nombre de usuario en uso")
       return res.status(422).json("This username are already created");
     } else {
       var user = new User();
+
       user.id_social = req.body.user.username;
       user.username = req.body.user.username;
       user.email = req.body.user.email;
+
+      
+
       user.setPassword(req.body.user.password);
+      console.log("aca")
 
       user.save().then(function () {
         return res.json({ user: user.toAuthJSON() });

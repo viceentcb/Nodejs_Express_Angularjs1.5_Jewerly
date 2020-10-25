@@ -7,7 +7,6 @@ let editorModule = angular.module('app.editor', []);
 import EditorConfig from './editor.config';
 editorModule.config(EditorConfig);
 
-
 // Controllers
 import EditorCtrl from './editor.controller';
 editorModule.controller('EditorCtrl', EditorCtrl);

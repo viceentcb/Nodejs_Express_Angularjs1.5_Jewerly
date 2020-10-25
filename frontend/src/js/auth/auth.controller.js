@@ -13,6 +13,10 @@ class AuthCtrl {
   submitForm() {
     this.isSubmitting = true;
 
+    
+
+    // console.log(err)
+
     this._User.attemptAuth(this.authType, this.formData).then(
       (res) => {
         this._toastr.showToastr('success', 'Your are Loggin in');

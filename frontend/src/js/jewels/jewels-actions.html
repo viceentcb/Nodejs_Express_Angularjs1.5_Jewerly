@@ -1,0 +1,21 @@
+<span ng-show="$ctrl.canModify">
+  <a class="btn btn-sm btn-outline-secondary" ui-sref="app.editor({ slug: $ctrl.jewels.slug })">
+    <i class="ion-edit"></i> Edit jewel
+  </a>
+
+  <button class="btn btn-sm btn-outline-danger" ng-class="{disabled: $ctrl.isDeleting}" ng-click="$ctrl.deleteJewel()">
+    <i class="ion-trash-a"></i> Delete jewel
+  </button>
+</span>
+
+<span ng-hide="$ctrl.canModify">
+  <span>AUTHOR:</span><a class="comment-owner" ui-sref=" .main({ username: $ctrl.jewel.owner.username })"
+    ng-bind="$ctrl.jewel.owner.username">
+  </a>
+
+  <follow-btn user="$ctrl.jewel.owner"></follow-btn>
+  <favorite-btn jewel="$ctrl.jewel">
+    {{ $ctrl.jewel.favorited ? 'Unfavorite' : 'Favorite' }} jewel
+    <span class="counter">({{$ctrl.jewel.favoritesCount}})</span>
+  </favorite-btn>
+</span

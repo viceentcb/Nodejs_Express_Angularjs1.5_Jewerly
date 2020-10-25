@@ -27,6 +27,8 @@ class JewelsCtrl {
 
               console.log(this.jewels)
             }else{
+              console.log("elseeee")
+              console.log(jewels)
               this.jewels=jewels
   
             }

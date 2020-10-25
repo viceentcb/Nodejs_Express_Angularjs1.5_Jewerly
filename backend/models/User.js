@@ -53,6 +53,8 @@ UserSchema.methods.toAuthJSON = function () {
     token: this.generateJWT(),
     bio: this.bio,
     image: this.image,
+    favorites: this.favorites,
+    following: this.following,
     followersCount:this.followersCount  };
 };
 

@@ -81,15 +81,15 @@ router.get('/', auth.optional, function (req, res, next) {
 //
 
 //obtain a jewel by slug
-router.get("/:slug", function (req, res, next) {
-  Jewel.findOne({ slug: req.params.slug })
-    .then(function (jewels) {
-      if (!jewels) {
-        return res.sendStatus(401);
-      }
-      return res.json({ jewel: jewels });
-    })
-    .catch(next);
+router.get('/:jewel', auth.optional, function(req, res, next) {
+  Promise.all([
+      req.payload ? User.findById(req.payload.id) : null,
+      req.jewel.populate('author').execPopulate()
+  ]).then(function(results) {
+      var user = results[0];
+
+      return res.json({ jewel: req.jewel.toJSONFor(user) });
+  }).catch(next);
 });
 
 //insert a jewel by owner
@@ -142,12 +142,13 @@ router.put('/:jewel', auth.required, function (req, res, next) {
   });
 });
 
-// delete jewel
+// delete jewel 
 router.delete('/:jewel', auth.required, function (req, res, next) {
   User.findById(req.payload.id).then(function (user) {
+
     if (!user) { return res.sendStatus(401); }
 
-    if (req.jewel.jewel._id.toString() === req.payload.id.toString()) {
+    if (req.jewel.owner._id.toString() === req.payload.id.toString()) {
       return req.jewel.remove().then(function () {
         return res.sendStatus(204);
       });

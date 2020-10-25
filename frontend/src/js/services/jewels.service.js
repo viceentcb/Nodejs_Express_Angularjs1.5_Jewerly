@@ -22,11 +22,33 @@ export default class Jewels {
     //One Jewel
     getJewel(slug) {
         return this._$http({
-          url: this._AppConstants.api + "/jewels/" + slug,
-          method: "GET"
+            url: this._AppConstants.api + "/jewels/" + slug,
+            method: "GET"
         })
-          .then(res => res.data.jewel);
-      }
-    
+            .then(res => res.data.jewel);
+    }
 
+
+    favorite(slug) {
+        return this._$http({
+            url: this._AppConstants.api + '/jewels/' + slug + '/favorite',
+            method: 'POST'
+        })
+    }
+
+    unfavorite(slug) {
+        return this._$http({
+            url: this._AppConstants.api + '/jewels/' + slug + '/favorite',
+            method: 'DELETE'
+        })
+    }
+
+
+    //delete jewel
+    destroy(slug) {
+        return this._$http({
+            url: this._AppConstants.api + '/jewels/' + slug,
+            method: 'DELETE'
+        })
+    }
 }
