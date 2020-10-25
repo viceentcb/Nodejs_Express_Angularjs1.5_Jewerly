@@ -1,35 +1,36 @@
 export default class Comments {
   constructor(AppConstants, $http) {
-    'ngInject';
+      'ngInject';
 
-    this._AppConstants = AppConstants;
-    this._$http = $http;
+      this._AppConstants = AppConstants;
+      this._$http = $http;
   }
 
 
-  // Add a comment to an article
+  // Add a comment to an jewel
   add(slug, payload) {
-    return this._$http({
-      url: `${this._AppConstants.api}/jewel/${slug}/comments`,
-      method: 'POST',
-      data: { comment: { body: payload } }
-    }).then((res) => res.data.comment);
+      return this._$http({
+          url: `${this._AppConstants.api}/jewels/${slug}/comments`,
+          method: 'POST',
+          data: { comment: { body: payload } }
+      }).then((res) => res.data.comment);
 
   }
 
   getAll(slug) {
-    return this._$http({
-      url: `${this._AppConstants.api}/jewel/${slug}/comments`,
-      method: 'GET',
-    }).then((res) => res.data.comments);
+      return this._$http({
+          url: `${this._AppConstants.api}/jewels/${slug}/comments`,
+          method: 'GET',
+      }).then((res) => res.data.comments);
 
   }
 
+  //Destroy the comment
   destroy(commentId, jewelSlug) {
-    return this._$http({
-      url: `${this._AppConstants.api}/jewel/${jewelSlug}/comments/${commentId}`,
-      method: 'DELETE',
-    });
+      return this._$http({
+          url: `${this._AppConstants.api}/jewels/${jewelSlug}/comments/${commentId}`,
+          method: 'DELETE',
+      });
   }
 
 }

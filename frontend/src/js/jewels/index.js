@@ -16,12 +16,12 @@ jewelsModule.controller('JewelsCtrl', JewelsCtrl);
 import Jewels_det_Ctrl from './jewelsdetails.controller';
 jewelsModule.controller('Jewels_det_Ctrl', Jewels_det_Ctrl);
 
-
 // Actions Jewels
 import JewelActions from './jewels-actions.component';
 jewelsModule.component('jewelsActions', JewelActions);
 
-// import Comment from './comment.component';
-// newsModule.component('comment', Comment)
+// Comments Jewels
+import Comment from './comments.component';
+jewelsModule.component('comments', Comment)
 
 export default jewelsModule;

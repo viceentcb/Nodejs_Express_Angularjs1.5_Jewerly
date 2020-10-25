@@ -29,6 +29,9 @@ function JewelsConfig($stateProvider) {
                 jewel: function (Jewels, $stateParams) {
                     //este nombre es el que recibe el controlador
                     return Jewels.getJewel($stateParams.slug).then(jewel => jewel); //recibo 1 jewel
+                },
+                comments: function (Comments, $stateParams) {
+                    return Comments.getAll($stateParams.slug).then(comment => comment);//recibir los comentarios
                 }
             }
         })

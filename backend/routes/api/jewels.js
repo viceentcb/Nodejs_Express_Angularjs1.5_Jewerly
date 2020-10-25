@@ -235,7 +235,7 @@ router.post('/:jewel/comments', auth.required, function (req, res, next) {
 });
 
 router.delete('/:jewel/comments/:comment', auth.required, function (req, res, next) {
-  if (req.comment.author.toString() === req.payload.id.toString()) {
+  if ((req.comment.author.toString() === req.payload.id.toString()) || (req.jewel.owner._id.toString()=== req.payload.id.toString())) {
     req.jewel.comments.remove(req.comment._id);
     req.jewel.save().then(Comment.find({ _id: req.comment._id }).remove().exec())
     .then(function(){

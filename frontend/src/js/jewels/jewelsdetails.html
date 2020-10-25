@@ -1,5 +1,79 @@
-<jewel-detail jewel="$ctrl.jewel"></jewel-detail>
+<div class="article-page">
+
+    <!-- Banner for jewel title, action buttons -->
+    <div class="banner">
+        <div class="container">
+              <div class="info">
+                <span class="date"
+                  ng-bind="$ctrl.jewel.createdAt | date: 'longDate' ">
+                </span>
+                <h1>{{$ctrl.jewel.name}}</h1>
+              </div>
+          
+
+            <!-- Show owner info + favorite & follow buttons -->
+
+            <!-- Show owner info + favorite & follow buttons -->
+            <jewels-actions jewel="$ctrl.jewel">
+            </jewels-actions>
 
 
-<jewels-actions jewel="$ctrl.jewel">
-</jewels-actions>
+        </div>
+    </div>
+    <!-- //Banner for jewels title, action buttons -->
+
+
+    <!-- Main view. Contains jewels html and comments -->
+    <div class="container page">
+
+        <!-- Article's HTML & tags rendered here -->
+        <div class="row article-content">
+            <div class="col-xs-12">
+               <jewel-detail jewel="$ctrl.jewel"></jewel-detail>
+            </div>
+        </div>
+
+        <hr />
+        <!-- Comments section -->
+        <div class="row">
+            <div class="col-xs-12 col-md-8 offset-md-2">
+
+                <div show-authed="true">
+                    <list-errors from="$crl.commentForm.errors"></list-errors>
+                    <form class="card comment-form" ng-submit="$ctrl.addComment()">
+                        <fieldset ng-disabled="$ctrl.commentForm.isSubmitting">
+                            <div class="card-block">
+                                <textarea class="form-control" placeholder="Write a comment..." rows="3"
+                                    ng-model="$ctrl.commentForm.body"></textarea>
+                            </div>
+                            <div class="card-footer">
+                                <img ng-src="{{::$ctrl.currentUser.image}}" class="comment-owner-img" />
+                                <button class="btn btn-sm btn-primary" type="submit">
+                                    Post Comment
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div show-authed="false">
+                    <a ui-sref="app.login">Sign in</a> or <a ui-sref="app.register">sign up</a> to add comments on this
+                    article.
+                </div>
+
+
+                <comments ng-repeat="cmt in $ctrl.comments" data="cmt" jewel="$ctrl.jewel" delete-Cm="$ctrl.deleteComment(cmt.id, $index)">
+                </comments>
+
+
+            </div>
+        </div>
+
+        <!--// Comments section -->
+
+    </div>
+    <!-- //Main view. Contains news html and comments -->
+
+
+
+</div>
