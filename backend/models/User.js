@@ -111,14 +111,8 @@ UserSchema.methods.isFollowing = function (id) {
 
 UserSchema.methods.updatefollowersCount = function () {
   var user = this;
-
-  // console.log(user)
-  // console.log(user._id)
-
   return User.count({ following: { $in: [user._id] } }).then(function (count) {
-    // console.log(count)
     user.followersCount = count;
-
     return user.save();
   })
 };

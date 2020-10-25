@@ -6,5 +6,5 @@
   ng-click="$ctrl.submit()">
   <i class="ion-plus-round"></i>
   &nbsp;
-  {{ $ctrl.user.following ? 'Unfollow' : 'Follow' }} {{ $ctrl.user.username }}
+  {{$ctrl.user.followersCount}} {{ $ctrl.user.following ? 'Unfollow' : 'Follow' }} {{ $ctrl.user.username }} 
 </button>

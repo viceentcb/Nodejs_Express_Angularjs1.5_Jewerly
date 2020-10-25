@@ -3,13 +3,12 @@
     <!-- Banner for jewel title, action buttons -->
     <div class="banner">
         <div class="container">
-              <div class="info">
-                <span class="date"
-                  ng-bind="$ctrl.jewel.createdAt | date: 'longDate' ">
+            <div class="info">
+                <span class="date" ng-bind="$ctrl.jewel.createdAt | date: 'longDate' ">
                 </span>
                 <h1>{{$ctrl.jewel.name}}</h1>
-              </div>
-          
+            </div>
+
 
             <!-- Show owner info + favorite & follow buttons -->
 
@@ -29,7 +28,7 @@
         <!-- Article's HTML & tags rendered here -->
         <div class="row article-content">
             <div class="col-xs-12">
-               <jewel-detail jewel="$ctrl.jewel"></jewel-detail>
+                <jewel-detail jewel="$ctrl.jewel"></jewel-detail>
             </div>
         </div>
 
@@ -48,13 +47,15 @@
                             </div>
                             <div class="card-footer">
                                 <img ng-src="{{::$ctrl.currentUser.image}}" class="comment-owner-img" />
+
                                 <button class="btn btn-sm btn-primary" type="submit">
                                     Post Comment
                                 </button>
-                            </div>
-                        </fieldset>
+                                <i class="fa fa-comment" style="font-size: 20px;"> {{$ctrl.jewel.commentsCount}}</i>
+                            </fieldset>
                     </form>
                 </div>
+
 
                 <div show-authed="false">
                     <a ui-sref="app.login">Sign in</a> or <a ui-sref="app.register">sign up</a> to add comments on this
@@ -62,7 +63,8 @@
                 </div>
 
 
-                <comments ng-repeat="cmt in $ctrl.comments" data="cmt" jewel="$ctrl.jewel" delete-Cm="$ctrl.deleteComment(cmt.id, $index)">
+                <comments ng-repeat="cmt in $ctrl.comments" data="cmt" jewel="$ctrl.jewel"
+                    delete-Cm="$ctrl.deleteComment(cmt.id, $index)">
                 </comments>
 
 
