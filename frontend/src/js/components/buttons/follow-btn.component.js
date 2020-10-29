@@ -7,14 +7,14 @@ class FollowBtnCtrl {
 
     this._$state = $state;
 
-    this.$onInit = () => {
-      console.log(this.user)
-      if (User.current) {
-        this.canModify = (User.current.username === this.user.username);
-      } else {
-        this.canModify = false;
-      }
-    }
+    // this.$onInit = () => {
+    //   console.log(this.user)
+    //   if (User.current) {
+    //     this.canModify = (User.current.username === this.user.username);
+    //   } else {
+    //     this.canModify = false;
+    //   }
+    // }
   }
 
   submit() {
