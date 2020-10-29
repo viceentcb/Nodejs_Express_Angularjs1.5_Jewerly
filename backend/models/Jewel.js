@@ -55,9 +55,6 @@ JewelSchema.methods.updateComentsCount = function () {
     return jewel.save();
   })
 
-  // return true
-  // console.log("---------------------------------------------------------")
-  // console.log(count)
 };
 
 JewelSchema.methods.toJSONFor = function (user) {

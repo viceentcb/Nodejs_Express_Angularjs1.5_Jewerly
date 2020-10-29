@@ -7,8 +7,8 @@ var secret = require('../config').secret;
 
 var UserSchema = new mongoose.Schema({
   id_social: { type: String, unique: true },
-  username: { type: String, lowercase: true, required: [true, "can't be blank"], match: [/^[a-zA-Z0-9]+$/, 'is invalid'] },
-  email: { type: String, lowercase: true, required: [true, "can't be blank"], match: [/\S+@\S+\.\S+/, 'is invalid'] },
+  username: { type: String},
+  email: { type: String},
   bio: String,
   image: String,
   favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Jewel' }],

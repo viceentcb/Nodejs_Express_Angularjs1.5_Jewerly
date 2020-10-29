@@ -267,7 +267,6 @@ router.post('/:jewel/comments', auth.required, function (req, res, next) {
     return comment.save().then(function () {
       req.jewel.comments = req.jewel.comments.concat([comment]);
       return req.jewel.save().then(function () {
-        // console.log(req.jewel)
         req.jewel.updateComentsCount().then(function () {
           res.json({ comment: comment.toJSONFor(user) });
         });
@@ -281,8 +280,7 @@ router.delete('/:jewel/comments/:comment', auth.required, function (req, res, ne
     req.jewel.comments.remove(req.comment._id);
     req.jewel.save().then(Comment.find({ _id: req.comment._id }).remove().exec())
       .then(function () {
-        req.jewel.updateComentsCount()
-          .then(function () {
+        req.jewel.updateComentsCount().then(function () {
             res.sendStatus(204);
           })
       })
