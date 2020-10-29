@@ -17,7 +17,6 @@ var JewelSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-const Jewel = mongoose.model('jewel', JewelSchema)
 
 JewelSchema.plugin(uniqueValidator, { message: 'is already taken' });
 
@@ -50,13 +49,22 @@ JewelSchema.methods.updateComentsCount = function () {
 
   // return Jewel.aggregate([{ "$match": { name: "Submarine" } }, { "$project": { count: { "$size": "$comments" } } }])
   //   .exec()
-  return Jewel.find({ _id: jewel._id }, { comments: 1, _id: 0 }).then(function(data){
+  return Jewel.find({ _id: jewel._id }, { comments: 1, _id: 0 }).then(function (data) {
     jewel.commentsCount = data[0].comments.length;
     return jewel.save();
   })
 
 };
 
+JewelSchema.methods.getcomments = async function () {
+  let jewel = this;
+
+  // return Jewel.aggregate([{ "$match": { name: "Submarine" } }, { "$project": { count: { "$size": "$comments" } } }])
+  //   .exec()
+  let comments= await Jewel.find({ _id: jewel._id }, { comments: 1, _id: 0 })
+
+  return comments[0].comments
+};
 JewelSchema.methods.toJSONFor = function (user) {
   return {
     slug: this.slug,
@@ -69,12 +77,13 @@ JewelSchema.methods.toJSONFor = function (user) {
     tagList: this.tagList,
     favorited: user ? user.isFavorite(this._id) : false,
     favoritesCount: this.favoritesCount,
-    commentsCount:this.commentsCount,
+    commentsCount: this.commentsCount,
     owner: this.owner.toProfileJSONFor(user)
     // owner: user ? user.toProfileJSONFor(user) : this.owner.toProfileJSONFor(user)
 
 
   };
 };
+const Jewel = mongoose.model('jewel', JewelSchema)
 
 mongoose.model('Jewel', JewelSchema);

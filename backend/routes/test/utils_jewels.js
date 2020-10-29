@@ -19,7 +19,6 @@ exports.jewels = async (...variables) => {
             ? (async () => {
                 console.log("------------------")
                 owner = await utils.owner(1)
-                owner = owner[0]
                 qty = req.params.qty
                 return (owner, qty)
             })()

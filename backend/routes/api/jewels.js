@@ -28,99 +28,99 @@ router.param('comment', function (req, res, next, id) {
 });
 
 //Feed 
-router.get('/feed', auth.required, function(req, res, next) {
+router.get('/feed', auth.required, function (req, res, next) {
   var limit = 20;
   var offset = 0;
 
   if (typeof req.query.limit !== 'undefined') {
-      limit = req.query.limit;
+    limit = req.query.limit;
   }
 
   if (typeof req.query.offset !== 'undefined') {
-      offset = req.query.offset;
+    offset = req.query.offset;
   }
 
-  User.findById(req.payload.id).then(function(user) {
-      if (!user) { return res.sendStatus(401); }
-      console.log("--------------------------------")
-      console.log(user)
-      Promise.all([
-          Jewel.find({ owner: { $in: user.following } })
-          .limit(Number(limit))
-          .skip(Number(offset))
-          .populate('owner')
-          .exec(),
-          Jewel.count({ owner: { $in: user.following } })
-      ]).then(function(results) {
-          var jewels = results[0];
-          var jewelsCount = results[1];
+  User.findById(req.payload.id).then(function (user) {
+    if (!user) { return res.sendStatus(401); }
+    console.log("--------------------------------")
+    console.log(user)
+    Promise.all([
+      Jewel.find({ owner: { $in: user.following } })
+        .limit(Number(limit))
+        .skip(Number(offset))
+        .populate('owner')
+        .exec(),
+      Jewel.count({ owner: { $in: user.following } })
+    ]).then(function (results) {
+      var jewels = results[0];
+      var jewelsCount = results[1];
 
-          return res.json({
-              jewels: jewels.map(function(jewel) {
-                  return jewel.toJSONFor(user);
-              }),
-              jewelsCount: jewelsCount
-          });
-      }).catch(next);
+      return res.json({
+        jewels: jewels.map(function (jewel) {
+          return jewel.toJSONFor(user);
+        }),
+        jewelsCount: jewelsCount
+      });
+    }).catch(next);
   });
 });
 
 // return all jewells
-router.get('/', auth.optional, function(req, res, next) {
+router.get('/', auth.optional, function (req, res, next) {
   var query = {};
   var limit = 20;
   var offset = 0;
 
   if (typeof req.query.limit !== 'undefined') {
-      limit = req.query.limit;
+    limit = req.query.limit;
   }
 
   if (typeof req.query.offset !== 'undefined') {
-      offset = req.query.offset;
+    offset = req.query.offset;
   }
 
   if (typeof req.query.tag !== 'undefined') {
-      query.tagList = { "$in": [req.query.tag] };
+    query.tagList = { "$in": [req.query.tag] };
   }
 
   Promise.all([
-      req.query.owner ? User.findOne({ username: req.query.owner }) : null,
-      req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
-  ]).then(function(results) {
-      var owner = results[0];
-      var favoriter = results[1];
+    req.query.owner ? User.findOne({ username: req.query.owner }) : null,
+    req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
+  ]).then(function (results) {
+    var owner = results[0];
+    var favoriter = results[1];
 
-      if (owner) {
-          query.owner = owner._id;
-      }
+    if (owner) {
+      query.owner = owner._id;
+    }
 
-      if (favoriter) {
-          query._id = { $in: favoriter.favorites };
-      } else if (req.query.favorited) {
-          query._id = { $in: [] };
-      }
+    if (favoriter) {
+      query._id = { $in: favoriter.favorites };
+    } else if (req.query.favorited) {
+      query._id = { $in: [] };
+    }
 
-      return Promise.all([
-          Jewel.find(query)
-          .limit(Number(limit))
-          .skip(Number(offset))
-          .sort({ createdAt: 'desc' })
-          .populate('owner')
-          .exec(),
-          Jewel.count(query).exec(),
-          req.payload ? User.findById(req.payload.id) : null,
-      ]).then(function(results) {
-          var jewels = results[0];
-          var jewelsCount = results[1];
-          var user = results[2];
+    return Promise.all([
+      Jewel.find(query)
+        .limit(Number(limit))
+        .skip(Number(offset))
+        .sort({ createdAt: 'desc' })
+        .populate('owner')
+        .exec(),
+      Jewel.count(query).exec(),
+      req.payload ? User.findById(req.payload.id) : null,
+    ]).then(function (results) {
+      var jewels = results[0];
+      var jewelsCount = results[1];
+      var user = results[2];
 
-          return res.json({
-              jewels: jewels.map(function(jewel) {
-                  return jewel.toJSONFor(user);
-              }),
-              jewelsCount: jewelsCount
-          });
+      return res.json({
+        jewels: jewels.map(function (jewel) {
+          return jewel.toJSONFor(user);
+        }),
+        jewelsCount: jewelsCount
       });
+    });
   }).catch(next);
 });
 //
@@ -188,19 +188,25 @@ router.put('/:jewel', auth.required, function (req, res, next) {
 });
 
 // delete jewel 
-router.delete('/:jewel', auth.required, function (req, res, next) {
-  User.findById(req.payload.id).then(function (user) {
+router.delete('/:jewel', auth.required, async function (req, res, next) {
+
+  try {
+
+    let user = await User.findById(req.payload.id)
 
     if (!user) { return res.sendStatus(401); }
 
     if (req.jewel.owner._id.toString() === req.payload.id.toString()) {
-      return req.jewel.remove().then(function () {
-        return res.sendStatus(204);
-      });
+      let comments = await req.jewel.getcomments()
+      for (i = 0; i < comments.length; i++) {
+        await delcomment(comments[i])
+      }
+      await req.jewel.remove()
+      return res.sendStatus(204);
     } else {
       return res.sendStatus(403);
     }
-  }).catch(next);
+  } catch { (next) }
 });
 
 // Favorite an jewel
@@ -275,19 +281,20 @@ router.post('/:jewel/comments', auth.required, function (req, res, next) {
   }).catch(next);
 });
 
-router.delete('/:jewel/comments/:comment', auth.required, function (req, res, next) {
+router.delete('/:jewel/comments/:comment', auth.required, async function (req, res, next) {
   if ((req.comment.author.toString() === req.payload.id.toString()) || (req.jewel.owner._id.toString() === req.payload.id.toString())) {
     req.jewel.comments.remove(req.comment._id);
-    req.jewel.save().then(Comment.find({ _id: req.comment._id }).remove().exec())
-      .then(function () {
-        req.jewel.updateComentsCount().then(function () {
-            res.sendStatus(204);
-          })
-      })
-
+    await req.jewel.save()
+    await delcomment(req.comment._id)
+    await req.jewel.updateComentsCount()
+    res.sendStatus(204);
   } else {
     res.sendStatus(403);
   }
 });
 
+let delcomment = async (id) => {
+
+  await Comment.find({ _id: id }).remove().exec()
+}
 module.exports = router;

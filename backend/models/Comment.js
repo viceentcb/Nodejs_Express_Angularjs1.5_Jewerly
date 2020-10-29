@@ -16,4 +16,18 @@ CommentSchema.methods.toJSONFor = function(user){
   };
 };
 
+// JewelSchema.methods.updateFavoriteCount = function () {
+//   var jewel = this;
+
+//   return User.count({ favorites: { $in: [jewel._id] } }).then(function (count) {
+
+//     jewel.favoritesCount = count;
+
+//     return jewel.save();
+//   });
+// };
+
+
+const Comment = mongoose.model('Comment', CommentSchema)
+
 mongoose.model('Comment', CommentSchema);
