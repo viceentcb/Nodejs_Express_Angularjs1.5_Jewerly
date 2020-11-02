@@ -1,2 +1,9 @@
+### APP
+node_modules
+
+### BACKEND
 backend/node_modules
 backend/credentials
+
+### FRONTEND
+frontend/node_modules
