@@ -9,6 +9,7 @@ var JewelSchema = new mongoose.Schema({
   brand: String,
   type: String,
   price: Number,
+  rating:{ type: Number, default: 0 },
   favoritesCount: { type: Number, default: 0 },
   comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   commentsCount: { type: Number, default: 0 },
@@ -43,7 +44,6 @@ JewelSchema.methods.updateFavoriteCount = function () {
   });
 };
 
-
 JewelSchema.methods.updateComentsCount = function () {
   let jewel = this;
 
@@ -65,6 +65,11 @@ JewelSchema.methods.getcomments = async function () {
 
   return comments[0].comments
 };
+
+JewelSchema.methods.updaterating = async function (id,rating) {
+      await Jewel.update({_id:id},{$inc:{rating:rating}})
+};
+
 JewelSchema.methods.toJSONFor = function (user) {
   return {
     slug: this.slug,

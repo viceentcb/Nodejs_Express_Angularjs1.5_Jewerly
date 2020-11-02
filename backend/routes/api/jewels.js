@@ -48,7 +48,7 @@ router.get('/feed', auth.required, function (req, res, next) {
             Jewel.find({ owner: { $in: user.following } })
                 .limit(Number(limit))
                 .skip(Number(offset))
-                .sort({ price: 'desc' })
+                .sort({ rating: 'desc' })
                 .populate('owner')
                 .exec(),
             Jewel.count({ owner: { $in: user.following } })
@@ -105,7 +105,7 @@ router.get('/', auth.optional, function (req, res, next) {
             Jewel.find(query)
                 .limit(Number(limit))
                 .skip(Number(offset))
-                .sort({ price: 'desc' })
+                .sort({ rating: 'desc' })
                 .populate('owner')
                 .exec(),
             Jewel.count(query).exec(),
@@ -138,7 +138,6 @@ router.get('/:jewel', auth.optional, function (req, res, next) {
     }).catch(next);
 });
 
-
 //insert a jewel by owner
 router.post('/', auth.required, function (req, res, next) {
     User.findById(req.payload.id).then(function (user) {
@@ -153,7 +152,6 @@ router.post('/', auth.required, function (req, res, next) {
         });
     }).catch(next);
 });
-
 
 // update jewel
 router.put('/:jewel', auth.required, function (req, res, next) {
@@ -225,6 +223,8 @@ router.post('/:jewel/favorite', auth.required, async function (req, res, next) {
     let ray = [[user, +5], [req.jewel.owner, +10]]
     await user.updatekarma(ray)
 
+   await req.jewel.updaterating(jewelId, +5)
+
     return res.json({
         jewel: jewel.toJSONFor(user)
     })
@@ -242,6 +242,8 @@ router.delete('/:jewel/favorite', auth.required, async function (req, res, next)
 
     let ray = [[user, -5], [req.jewel.owner, -10]]
     await user.updatekarma(ray)
+
+    await req.jewel.updaterating(jewelId, -5)
 
     return res.json({
         jewel: jewel.toJSONFor(user)
@@ -289,10 +291,12 @@ router.post('/:jewel/comments', auth.required, async function (req, res, next) {
     let ray = [[user, +8], [req.jewel.owner, +15]]
     await user.updatekarma(ray)
 
+    await req.jewel.updaterating(req.jewel._id, +10)
+
+
     res.json({ comment: comment.toJSONFor(user) });
 
 });
-
 
 // // // delete a new comment
 router.delete('/:jewel/comments/:comment', auth.required, async function (req, res, next) {
@@ -309,6 +313,7 @@ router.delete('/:jewel/comments/:comment', auth.required, async function (req, r
         let ray = [[user, -8], [req.jewel.owner, -15]]
         await user.updatekarma(ray)
 
+        await req.jewel.updaterating(req.jewel._id, -10)
         
         res.sendStatus(204);
 

@@ -1,27 +1,33 @@
 class JewelsListCtrl {
 
     constructor(Jewels, $scope) {
-            "ngInject";
+        "ngInject";
 
-            this._$scope = $scope;
-            this._Jewel = Jewels;
+        this._$scope = $scope;
+        this._Jewel = Jewels;
 
-            this.$onInit = () => {
-                this.setListTo(this.listConfig);
-            }
+        this.$onInit = () => {
+            this.setListTo(this.listConfig);
+        }
 
-            $scope.$on('setListTo', (ev, newList) => {
-                this.setListTo(newList);
-            })
+        $scope.$on('setListTo', (ev, newList) => {
+            this.setListTo(newList);
+        })
 
-            //pagination
+        //pagination
 
-            $scope.$on('setPageTo', (ev, pageNumber) => {
-                this.setPageTo(pageNumber);
-            });
+        $scope.$on('setPageTo', (ev, pageNumber) => {
+            this.setPageTo(pageNumber);
+        });
 
 
-        } //end_constructor
+        $scope.$on('likes', () => {
+            this.runQuery();
+        });
+
+
+
+    } //end_constructor
 
     setListTo(newList) {
         this.list = [];
@@ -30,6 +36,7 @@ class JewelsListCtrl {
     }
 
     setPageTo(pageNumber) {
+
         this.listConfig.currentPage = pageNumber;
 
         this.runQuery();

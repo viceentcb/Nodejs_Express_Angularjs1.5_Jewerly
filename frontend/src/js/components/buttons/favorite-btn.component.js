@@ -1,10 +1,12 @@
 class FavoriteBtnCtrl {
-  constructor(User, Jewels, $state) {
+  constructor(User, Jewels, $state, $scope) {
     'ngInject';
 
     this._User = User;
     this._Jewel = Jewels;
     this._$state = $state;
+    this._$scope = $scope;
+
 
   }
 
@@ -24,6 +26,8 @@ class FavoriteBtnCtrl {
           this.isSubmitting = false;
           this.jewel.favorited = false;
           this.jewel.favoritesCount--;
+          this._$scope.$emit('likes');
+
         }
       )
 
@@ -33,8 +37,11 @@ class FavoriteBtnCtrl {
           this.isSubmitting = false;
           this.jewel.favorited = true;
           this.jewel.favoritesCount++;
+          this._$scope.$emit('likes');
         }
       )
+
+
     }
 
   }
