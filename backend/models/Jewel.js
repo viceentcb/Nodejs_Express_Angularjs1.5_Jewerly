@@ -72,6 +72,7 @@ JewelSchema.methods.updaterating = async function (id,rating) {
 
 JewelSchema.methods.toJSONFor = function (user) {
   return {
+    _id:this._id,
     slug: this.slug,
     name: this.name,
     brand: this.brand,
@@ -83,6 +84,7 @@ JewelSchema.methods.toJSONFor = function (user) {
     favorited: user ? user.isFavorite(this._id) : false,
     favoritesCount: this.favoritesCount,
     commentsCount: this.commentsCount,
+    rating:this.rating,
     owner: this.owner.toProfileJSONFor(user)
     // owner: user ? user.toProfileJSONFor(user) : this.owner.toProfileJSONFor(user)
 

@@ -26,7 +26,7 @@ class FavoriteBtnCtrl {
           this.isSubmitting = false;
           this.jewel.favorited = false;
           this.jewel.favoritesCount--;
-          this._$scope.$emit('likes');
+          this._$scope.$emit('likes', this.jewel);
 
         }
       )
@@ -37,7 +37,7 @@ class FavoriteBtnCtrl {
           this.isSubmitting = false;
           this.jewel.favorited = true;
           this.jewel.favoritesCount++;
-          this._$scope.$emit('likes');
+          this._$scope.$emit('likes', this.jewel);
         }
       )
 

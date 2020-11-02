@@ -50716,14 +50716,14 @@ var FavoriteBtnCtrl = function () {
           _this.isSubmitting = false;
           _this.jewel.favorited = false;
           _this.jewel.favoritesCount--;
-          _this._$scope.$emit('likes');
+          _this._$scope.$emit('likes', _this.jewel);
         });
       } else {
         this._Jewel.favorite(this.jewel.slug).then(function () {
           _this.isSubmitting = false;
           _this.jewel.favorited = true;
           _this.jewel.favoritesCount++;
-          _this._$scope.$emit('likes');
+          _this._$scope.$emit('likes', _this.jewel);
         });
       }
     }
@@ -50978,8 +50978,9 @@ var JewelsListCtrl = function () {
             _this.setPageTo(pageNumber);
         });
 
-        $scope.$on('likes', function () {
+        $scope.$on('likes', function (ev, jewel) {
             _this.runQuery();
+            _this.pager(jewel);
         });
     } //end_constructor
 
@@ -50993,6 +50994,8 @@ var JewelsListCtrl = function () {
     }, {
         key: 'setPageTo',
         value: function setPageTo(pageNumber) {
+
+            console.log(pageNumber);
 
             this.listConfig.currentPage = pageNumber;
 
@@ -51032,6 +51035,25 @@ var JewelsListCtrl = function () {
                 _this2.list = res.jewels;
                 console.log('console res in run query jewels', res.jewels);
                 _this2.listConfig.totalPages = Math.ceil(res.jewelsCount / _this2.limit);
+            });
+        }
+    }, {
+        key: 'pager',
+        value: function pager(jew_click) {
+            var _this3 = this;
+
+            this._Jewel.getJewels().then(function (res) {
+                console.log(res);
+                res = res.map(function (element) {
+                    return element._id;
+                });
+
+                var index = res.indexOf(jew_click._id);
+                console.log(index);
+
+                var page = Math.floor(index / 3) + 1;
+
+                _this3.setPageTo(page);
             });
         }
     }]);
@@ -51315,7 +51337,7 @@ angular.module("templates", []).run(["$templateCache", function ($templateCache)
   $templateCache.put("components/article-helpers/article-meta.html", "<div class=\"article-meta\">\n  <a ui-sref=\"app.profile.main({ username:$ctrl.article.author.username })\">\n    <img ng-src=\"{{$ctrl.article.author.image}}\" />\n  </a>\n\n  <div class=\"info\">\n    <a class=\"author\"\n      ui-sref=\"app.profile.main({ username:$ctrl.article.author.username })\"\n      ng-bind=\"$ctrl.article.author.username\">\n    </a>\n    <span class=\"date\"\n      ng-bind=\"$ctrl.article.createdAt | date: \'longDate\' \">\n    </span>\n  </div>\n\n  <ng-transclude></ng-transclude>\n</div>\n");
   $templateCache.put("components/article-helpers/article-preview.html", "<div class=\"article-preview\">\n  <article-meta article=\"$ctrl.article\">\n    <favorite-btn\n      article=\"$ctrl.article\"\n      class=\"pull-xs-right\">\n      {{$ctrl.article.favoritesCount}}\n    </favorite-btn>\n  </article-meta>\n\n  <a ui-sref=\"app.article({ slug: $ctrl.article.slug })\" class=\"preview-link\">\n    <h1 ng-bind=\"$ctrl.article.title\"></h1>\n    <p ng-bind=\"$ctrl.article.description\"></p>\n    <span>Read more...</span>\n    <ul class=\"tag-list\">\n      <li class=\"tag-default tag-pill tag-outline\"\n        ng-repeat=\"tag in $ctrl.article.tagList\">\n        {{tag}}\n      </li>\n    </ul>\n  </a>\n</div>\n");
   $templateCache.put("components/article-helpers/list-pagination.html", "<nav>\n  <ul class=\"pagination\">\n\n    <li class=\"page-item\"\n      ng-class=\"{active: pageNumber === $ctrl.currentPage }\"\n      ng-repeat=\"pageNumber in $ctrl.pageRange($ctrl.totalPages)\"\n      ng-click=\"$ctrl.changePage(pageNumber)\">\n\n      <a class=\"page-link\" href=\"\">{{ pageNumber }}</a>\n\n    </li>\n\n  </ul>\n</nav>\n");
-  $templateCache.put("components/buttons/favorite-btn.html", "<button class=\"btn btn-sm\"\n  ng-class=\"{ \'disabled\' : $ctrl.isSubmitting,\n              \'btn-outline-primary\': !$ctrl.jewel.favorited,\n              \'btn-primary\': $ctrl.jewel.favorited }\"\n  ng-click=\"$ctrl.submit()\">\n  <i class=\"ion-heart\"></i> <ng-transclude></ng-transclude>\n</button>\n");
+  $templateCache.put("components/buttons/favorite-btn.html", "<button class=\"btn btn-sm\"\n  ng-class=\"{ \'disabled\' : $ctrl.isSubmitting,\n              \'btn-outline-primary\': !$ctrl.jewel.favorited,\n              \'btn-primary\': $ctrl.jewel.favorited }\"\n  ng-click=\"$ctrl.submit($ctrl.jewel._id)\">\n  <i class=\"ion-heart\"></i> <ng-transclude></ng-transclude>\n</button>\n");
   $templateCache.put("components/buttons/follow-btn.html", "<button\n  class=\"btn btn-sm action-btn\"\n  ng-class=\"{ \'disabled\': $ctrl.isSubmitting,\n              \'btn-outline-secondary\': !$ctrl.user.following,\n              \'btn-secondary\': $ctrl.user.following }\"\n  ng-click=\"$ctrl.submit()\">\n  <i class=\"ion-plus-round\"></i>\n  &nbsp;\n  {{$ctrl.user.followersCount}} {{ $ctrl.user.following ? \'Unfollow\' : \'Follow\' }} {{ $ctrl.user.username }} \n</button>\n");
   $templateCache.put("components/jewels-helpers/jewel-preview.html", "<div class=\"jewel-preview\">\n    <div jewel=\"$ctrl.jewel\">\n        <favorite-btn \n        jewel=\"$ctrl.jewel\" class=\"pull-xs-right \">\n            {{$ctrl.jewel.favoritesCount}}\n        </favorite-btn>\n    </div>\n\n    <a ui-sref=\"app.detailsJewels({slug:$ctrl.jewel.slug})\" class=\"preview-link\">\n        <h1 ng-bind=\"$ctrl.jewel.name\"></h1>\n        <p ng-bind=\"$ctrl.jewel.price\"></p>\n        <span>Read more...</span>\n        <ul class=\"tag-list\">\n            <li class=\"tag-default tag-pill tag-outline\"\n              ng-repeat=\"tag in $ctrl.jewel.tagList\">\n              {{tag}}\n            </li>\n          </ul>\n    </a>\n\n\n\n\n</div>\n<hr>");
   $templateCache.put("components/jewels-helpers/jewel_detail.html", "<p id=\"brand\">{{$ctrl.jewel.brand}}</p>\n<p> {{$ctrl.jewel.type}}</p>\n<p id=\"price\">{{$ctrl.jewel.price}}</p>\n\n");

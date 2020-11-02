@@ -2,6 +2,6 @@
   ng-class="{ 'disabled' : $ctrl.isSubmitting,
               'btn-outline-primary': !$ctrl.jewel.favorited,
               'btn-primary': $ctrl.jewel.favorited }"
-  ng-click="$ctrl.submit()">
+  ng-click="$ctrl.submit($ctrl.jewel._id)">
   <i class="ion-heart"></i> <ng-transclude></ng-transclude>
 </button>

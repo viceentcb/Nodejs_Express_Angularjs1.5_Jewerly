@@ -21,8 +21,9 @@ class JewelsListCtrl {
         });
 
 
-        $scope.$on('likes', () => {
+        $scope.$on('likes', (ev, jewel) => {
             this.runQuery();
+            this.pager(jewel);
         });
 
 
@@ -37,11 +38,12 @@ class JewelsListCtrl {
 
     setPageTo(pageNumber) {
 
-        this.listConfig.currentPage = pageNumber;
+        console.log(pageNumber)
+        
+            this.listConfig.currentPage = pageNumber;
 
         this.runQuery();
     }
-
 
     runQuery() {
         // Show the loading indicator
@@ -76,6 +78,26 @@ class JewelsListCtrl {
                     this.list = res.jewels;
                     console.log('console res in run query jewels', res.jewels)
                     this.listConfig.totalPages = Math.ceil(res.jewelsCount / this.limit);
+                }
+            );
+    }
+
+    pager(jew_click) {
+        this._Jewel
+            .getJewels()
+            .then(
+                (res) => {
+                    console.log(res)
+                    res=res.map(element=> element._id)
+
+                    let index=res.indexOf(jew_click._id)
+                    console.log(index)
+
+                   let page=(Math.floor(index/3)+1)
+
+                    this.setPageTo(page)
+
+
                 }
             );
     }
