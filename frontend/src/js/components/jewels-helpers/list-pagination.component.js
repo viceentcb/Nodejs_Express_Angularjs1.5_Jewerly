@@ -1,36 +1,34 @@
 class ListPaginationCtrl {
     constructor($scope) {
-      'ngInject';
-  
-      this._$scope = $scope;
-  
+        'ngInject';
+
+        this._$scope = $scope;
+
     }
-  
+
     pageRange(total) {
-      let pages = [];
-  
-      for (var i = 0; i < total; i++) {
-        pages.push(i + 1)
-      }
-  
-      return pages;
+        let pages = [];
+        for (var i = 0; i < total; i++) {
+            pages.push(i + 1)
+        }
+
+        return pages;
     }
-  
+
     changePage(number) {
-      this._$scope.$emit('setPageTo', number);
+        this._$scope.$emit('setPageTo', number);
     }
-  
-  
-  }
-  
-  let ListPagination= {
+
+
+}
+
+let ListPagination = {
     bindings: {
-      totalPages: '=',
-      currentPage: '='
+        totalPages: '=',
+        currentPage: '='
     },
     controller: ListPaginationCtrl,
     templateUrl: 'components/jewels-helpers/list-pagination.html'
-  };
-  
-  export default ListPagination;
-  
+};
+
+export default ListPagination;

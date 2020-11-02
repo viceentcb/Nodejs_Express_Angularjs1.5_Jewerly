@@ -7,9 +7,8 @@
 </div>
 
 <div class="jewel-preview" ng-show="!$ctrl.loading && !$ctrl.list.length">
-  Aún no hay noticias...
+    Aún no hay noticias...
 </div>
 
-<list-pagination total-pages="$ctrl.listConfig.totalPages" current-page="$ctrl.listConfig.currentPage"
-    ng-hide="$ctrl.listConfig.totalPages <= 1">
+<list-pagination total-pages="$ctrl.listConfig.totalPages" current-page="$ctrl.listConfig.currentPage" ng-hide="$ctrl.listConfig.totalPages <= 1">
 </list-pagination>

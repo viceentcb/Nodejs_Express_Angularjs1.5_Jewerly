@@ -6,7 +6,7 @@ let utils_jewels = require('./utils_jewels');
 
 
 
-router.get('/:qty/:jwqty', async (req, res, next) => {
+router.get('/:qty/:jwqty', async(req, res, next) => {
     try {
         let qty = req.params.qty;
         let jwqty = req.params.jwqty
@@ -26,8 +26,8 @@ router.get('/:qty/:jwqty', async (req, res, next) => {
 
             if (jwqty > 0) {
                 let user = await utils.usertojewel()
-                let ray=[user,jwqty]
-               await  utils_jewels.jewels(req, res, next, ray)
+                let ray = [user, jwqty]
+                await utils_jewels.jewels(req, res, next, ray)
             }
 
         }
