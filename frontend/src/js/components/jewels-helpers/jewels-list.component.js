@@ -71,7 +71,7 @@ class JewelsListCtrl {
         this._Jewel
             .query(queryConfig)
             .then(
-                (res) => {
+                (res) => {                    
                     console.log('console res in run query', res)
                     this.loading = false;
                     // Update list and total pages
