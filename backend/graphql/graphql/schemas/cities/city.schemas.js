@@ -17,7 +17,6 @@ const typeDefs = gql`
     }
     input CityInput {
         name: String
-        shop: [String]
     }
     input Cityshop {
         name:String

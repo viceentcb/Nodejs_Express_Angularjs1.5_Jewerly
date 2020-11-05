@@ -23,12 +23,19 @@ const resolvers = {
 
         },
         updateShopinCity: async (root, { input }) => {
-            let city = await getcityid(input.name)
-            let id_city = city.id
-            let shopsincity = city.shop
-            let ids_shops = await getshopsid(input.shop)
 
-            await final_shops(shopsincity, input.shop)
+            //Obtenemos la ciudad que vamos a modificar con sus respectivas tiendas
+            let city = await City.findOne({ name: input.name })
+                .populate('shop')
+                .exec()
+
+
+            //Esta funcion se encargara de insertar solo las tiendas que no esten insertadas
+            //Ademas de insertar la ciudad en estas tiendas
+            await final_shops(city, input.shop)
+
+            return city;
+
 
 
         }
@@ -45,32 +52,36 @@ const resolvers = {
     }
 };
 
-let getcityid = async (name) => {
-    return await City.findOne({ name: name }, { _id: 1, shop: 1 }).exec()
-}
+let final_shops = async (city, insertshops) => {
 
-let getshopsid = async (name) => {
-    let shops = []
-    for (let i = 0; i < name.length; i++) {
-        shops.push(await Shop.findOne({ name: name[i] }, { _id: 1 }).exec())
+    //Obtenemos el id de la ciudad
+    let id_city = city._id
+
+    //Obtenemos las tiendas que ya tenemos en esta ciudad
+    let shopincity = city.shop.map(shop => shop.name)
+
+    //Y comparamos las tiendas que vamos a insertar con las que ya estan insertadas
+    //y solo cogemos las que no esten ya insertadas
+    let shopsToInclude = insertshops.filter(element => !shopincity.includes(element));
+
+    //Convertimos todos los nombres de las tiendas en sus respectivos id
+    let idShopsToInclude = [];
+    for (let i = 0; i < shopsToInclude.length; i++) {
+
+        let id_shop = await Shop.findOne({ name: shopsToInclude[i] }, { _id: 1 }).exec()
+        idShopsToInclude.push(id_shop._id)
     }
-    return shops
-}
 
-let final_shops = async (shopsincity, insertshops) => {
-    console.log("-------------")
-    console.log(shopsincity)
-    console.log(insertshops)
+    for (let z = 0; z < idShopsToInclude.length; z++) {
 
-    let id;
+        //Añadimos cada tienda en el array "shop" que esta en la coleccion de ciudades
+        await City.update({ _id: id_city }, { $push: { shop: idShopsToInclude[z] } }).exec()
 
-    for (let i = 0; i < insertshops.length; i++) {
-
-        id=await Shop.findOne({ name: insertshops[i] },{_id:1}).exec()
-
-        insertshops.push(id._id)
+        //Añadimos a cada tienda la ciudad en el array city que esta en la colecion de tienda
+        await Shop.update({ _id: idShopsToInclude[z] }, { $push: { city: id_city } }).exec()
     }
-    console.log(insertshops)
+
 
 }
-    module.exports = resolvers;
+
+module.exports = resolvers;

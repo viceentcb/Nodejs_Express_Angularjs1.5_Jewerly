@@ -7,6 +7,8 @@ const typeDefs = gql`
     }
     extend type Mutation {
         createShop(input: ShopInput): Shop
+        updateCityinShop(input:Shopcity):Shop
+
     }
     type Shop {
         id: ID!
@@ -19,6 +21,9 @@ const typeDefs = gql`
     input ShopInput {
         name: String!
         brand: String
+    }
+    input Shopcity {
+        name:String
         city: [String]
     }
 `;
