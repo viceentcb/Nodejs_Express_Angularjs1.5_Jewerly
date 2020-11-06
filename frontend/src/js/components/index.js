@@ -39,4 +39,10 @@ componentsModule.component('citiesList', CitiesList);
 import CityPreview from './cities-helpers/city-preview.component';
 componentsModule.component('cityPreview', CityPreview);
 
+import ShopsList from './shops-helpers/shops-list.component';
+componentsModule.component('shopsList', ShopsList);
+
+import ShopPreview from './shops-helpers/shop-preview.component';
+componentsModule.component('shopPreview', ShopPreview);
+
 export default componentsModule;

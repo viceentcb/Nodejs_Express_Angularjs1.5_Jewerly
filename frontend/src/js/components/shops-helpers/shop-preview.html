@@ -1,0 +1,11 @@
+<div ng-click="$ctrl.detail()" class="shop-preview">
+
+    <h1 ng-bind="$ctrl.shop.name"></h1>
+    <p ng-bind="$ctrl.shop.count  + ' ' + $ctrl.shop.hwmny"></p>
+    <ul class="tag-list">
+        <li class="tag-default tag-pill tag-outline" ng-repeat="city in $ctrl.shop.city">
+            {{city.name}}
+        </li>
+    </ul>
+</div>
+        <hr>

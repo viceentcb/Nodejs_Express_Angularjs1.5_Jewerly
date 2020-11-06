@@ -11,6 +11,10 @@ servicesModule.service('GraphQLClient', GraphQLClientService);
 import CitiesService from './cities.service';
 servicesModule.service('Cities',CitiesService)
 
+//shops Service
+import ShopsService from './shops.service';
+servicesModule.service('Shops',ShopsService)
+
 import UserService from './user.service';
 servicesModule.service('User', UserService);
 

@@ -1,4 +1,4 @@
-export default class Cities {
+export default class Shops {
     constructor(AppConstants, $http, $q, GraphQLClient) {
       'ngInject';
 
@@ -16,10 +16,10 @@ export default class Cities {
     query() {
       let query = `
             {
-              cities{
+              shops{
                 slug
                 name
-                shop{
+                city{
                   slug
                   name
                 }

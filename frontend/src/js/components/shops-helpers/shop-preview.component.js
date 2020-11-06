@@ -1,15 +1,14 @@
 
-class CitiesListCtrl {
+class ShopsListCtrl {
     constructor() {
         "ngInject";
-
 
     }
 
     detail() {
-        //Cuando hagamos click en alguna ciudad abrira un modal con la informacion de la ciudad
+        //Cuando hagamos click en alguna tienda abrira un modal con la informacion de la tienda
         // Asi todo lo controla el preview sin falta de un controllador y no necesitamos hacer otro endpoint
-        //ya que la informacion de la ciudad ya la tenemos
+        //ya que la informacion de la tienda ya la tenemos
 
         var myModal = document.getElementById("myModal");
 
@@ -40,15 +39,15 @@ class CitiesListCtrl {
     }
 
 }
-let CityPreview = {
-    controller: CitiesListCtrl,
+let ShopPreview = {
+    controller: ShopsListCtrl,
 
     bindings: {
-        city: '='
+        shop: '='
     },
-    templateUrl: 'components/cities-helpers/city-preview.html'
+    templateUrl: 'components/shops-helpers/shop-preview.html'
 };
 
 
 
-export default CityPreview;
+export default ShopPreview;

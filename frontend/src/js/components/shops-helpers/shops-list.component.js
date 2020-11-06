@@ -1,8 +1,8 @@
-class CitiesListCtrl {
-    constructor($scope, Cities) {
+class ShopsListCtrl {
+    constructor($scope, Shops) {
         "ngInject";
         console.log('---- City LIST ----');
-        this._Cities = Cities;
+        this._Shops = Shops;
 
         
         this.runQuery()
@@ -12,20 +12,20 @@ class CitiesListCtrl {
     runQuery() {
         
         // Run the query
-        this._Cities
+        this._Shops
             .query()
             .then(
                 (res) => {
                     console.log('console res in run query', res)                    
-                    this.list = res.cities;
+                    this.list = res.shops;
                     console.log('console res in run query opinions -->', this.list)
 
-                    //Creamos dos nuevos campos en la tienda uno con el numero de tiendas que tiene
+                    //Creamos dos nuevos campos en la ciudad uno con el numero de ciudades que tiene
                     //Y otro para ponerlo en plural o singular
                     for( let i=0; i<this.list.length ;i++){
-                        this.list[i].count=this.list[i].shop.length;
+                        this.list[i].count=this.list[i].city.length;
 
-                        this.list[i].hwmny= this.list[i].count==1?"Establecimiento":"Establecimientos"
+                        this.list[i].hwmny= this.list[i].count==1?"Ciudad":"Ciudades"
                     }
                     console.log(this.list)
                 }
@@ -35,10 +35,10 @@ class CitiesListCtrl {
 
 }
 
-let CityList = {
-    controller: CitiesListCtrl,
-    templateUrl: 'components/cities-helpers/cities-list.html'
+let ShopList = {
+    controller: ShopsListCtrl,
+    templateUrl: 'components/shops-helpers/shops-list.html'
 
 }
 
-export default CityList;
+export default ShopList;
