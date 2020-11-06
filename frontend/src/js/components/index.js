@@ -33,4 +33,10 @@ componentsModule.component('slider', Slider);
 import ListPagination from './jewels-helpers/list-pagination.component';
 componentsModule.component('listPagination', ListPagination);
 
+import CitiesList from './cities-helpers/cities-list.component';
+componentsModule.component('citiesList', CitiesList);
+
+import CityPreview from './cities-helpers/city-preview.component';
+componentsModule.component('cityPreview', CityPreview);
+
 export default componentsModule;

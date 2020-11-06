@@ -1,7 +1,6 @@
 export default class Jewels {
     constructor(AppConstants, $http, $q) {
         "ngInject";
-
         this._AppConstants = AppConstants;
         this._$http = $http;
         this._$q = $q;
