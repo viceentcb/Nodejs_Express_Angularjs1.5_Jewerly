@@ -29,4 +29,11 @@ export default class Shops {
       return this._GQL.get(query);
     }
 
+    getShops() {
+      return this._$http({
+          url: this._AppConstants.api + "/jewels/shops"
+      }).then(res => {
+          return res.data;
+      });
+  }
   }

@@ -13,13 +13,11 @@ const QueryResolvers = {
 
 let CityResolvers = require ('./cities/city.resolvers');
 let ShopResolvers  = require ('./shops/shop.resolvers');
-let UserResolvers  = require ('./users/users.resolvers');
 
 const resolvers = merge(
   QueryResolvers,
   CityResolvers,
   ShopResolvers,
-  UserResolvers
 );
 
 module.exports = resolvers;

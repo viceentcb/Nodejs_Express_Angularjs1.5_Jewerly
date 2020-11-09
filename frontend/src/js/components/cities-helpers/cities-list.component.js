@@ -5,7 +5,8 @@ class CitiesListCtrl {
         this._Cities = Cities;
 
         
-        this.runQuery()
+        // this.runQuery()
+        this.cities()
 
     }
 
@@ -30,6 +31,24 @@ class CitiesListCtrl {
                     console.log(this.list)
                 }
             );
+    }
+
+    cities(){ 
+        this._Cities
+        .getCities()
+        .then(
+            (res) => {
+                this.list = res.cities;
+
+                //Creamos dos nuevos campos en la tienda uno con el numero de tiendas que tiene
+                //Y otro para ponerlo en plural o singular
+                for( let i=0; i<this.list.length ;i++){
+                    this.list[i].count=this.list[i].shop.length;
+
+                    this.list[i].hwmny= this.list[i].count==1?"Establecimiento":"Establecimientos"
+                }
+            })
+
     }
 
 

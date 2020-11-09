@@ -29,4 +29,12 @@ export default class Cities {
       return this._GQL.get(query);
     }
 
+    getCities() {
+      return this._$http({
+          url: this._AppConstants.api + "/jewels/cities"
+      }).then(res => {
+          return res.data;
+      });
+  }
+
   }

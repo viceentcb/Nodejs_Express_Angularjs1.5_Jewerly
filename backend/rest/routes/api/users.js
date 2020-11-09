@@ -114,8 +114,6 @@ router.post('/users', function (req, res, next) {
   });
 });
 
-
-
 router.post("/users/sociallogin", function (req, res) {
 
   let memorystore = req.sessionStore;

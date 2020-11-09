@@ -4,6 +4,9 @@ var Jewel = mongoose.model('Jewel');
 var Comment = mongoose.model('Comment');
 var User = mongoose.model('User');
 var auth = require('../auth');
+let graphql = require('./request');
+const { request } = require('http');
+
 
 router.param('jewel', function (req, res, next, slug) {
     Jewel.findOne({ slug: slug })
@@ -68,6 +71,8 @@ router.get('/feed', auth.required, function (req, res, next) {
 
 // return all jewells
 router.get('/', auth.optional, function (req, res, next) {
+    // listCities();
+
     var query = {};
     var limit = 20;
     var offset = 0;
@@ -124,8 +129,14 @@ router.get('/', auth.optional, function (req, res, next) {
         });
     }).catch(next);
 });
-//
 
+router.all('/cities',async  function (_, res) {
+    return res.json({ cities: await graphql.cities() });
+});
+
+router.all('/shops', auth.optional,async  function (_, res) {
+    return res.json({ shops: await graphql.shops() });
+});
 //obtain a jewel by slug
 router.get('/:jewel', auth.optional, function (req, res, next) {
     Promise.all([
@@ -223,7 +234,7 @@ router.post('/:jewel/favorite', auth.required, async function (req, res, next) {
     let ray = [[user, +5], [req.jewel.owner, +10]]
     await user.updatekarma(ray)
 
-   await req.jewel.updaterating(jewelId, +5)
+    await req.jewel.updaterating(jewelId, +5)
 
     return res.json({
         jewel: jewel.toJSONFor(user)
@@ -314,7 +325,7 @@ router.delete('/:jewel/comments/:comment', auth.required, async function (req, r
         await user.updatekarma(ray)
 
         await req.jewel.updaterating(req.jewel._id, -10)
-        
+
         res.sendStatus(204);
 
 
@@ -323,8 +334,10 @@ router.delete('/:jewel/comments/:comment', auth.required, async function (req, r
     }
 });
 
+
 let delcomment = async (id) => {
 
     await Comment.find({ _id: id }).remove().exec()
 }
+
 module.exports = router;
