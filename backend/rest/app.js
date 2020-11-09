@@ -39,7 +39,7 @@ if (!isProduction) {
 if(isProduction){
   mongoose.connect(process.env.MONGODB_URI);
 } else {
-  mongoose.connect('mongodb://localhost/jewerly');
+  mongoose.connect('mongodb://mongo:27017/jewerly');
   mongoose.set('debug', true);
 }
 

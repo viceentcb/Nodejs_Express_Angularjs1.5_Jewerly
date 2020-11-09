@@ -216,7 +216,7 @@ router.delete('/:jewel', auth.required, async function (req, res, next) {
         } else {
             return res.sendStatus(403);
         }
-    } catch {
+    } catch(next) {
         (next)
     }
 });

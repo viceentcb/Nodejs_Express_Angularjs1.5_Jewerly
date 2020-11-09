@@ -43,7 +43,7 @@ function mongooseConnect() {
       mongoose.set('useNewUrlParser', true);
       mongoose.set('useUnifiedTopology', true);
       try {
-        mongoose.connect('mongodb://localhost/jewerly');
+        mongoose.connect('mongodb://mongo:27017/jewerly');
       } catch (error) {
         console.log(error);
         process.exit(1);
