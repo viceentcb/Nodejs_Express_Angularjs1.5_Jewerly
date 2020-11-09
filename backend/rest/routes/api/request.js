@@ -4,7 +4,7 @@ const { createApolloFetch } = require('apollo-fetch');
 
 exports.cities = async () => {
   try {
-    const res = await axios.get('http://localhost:3001/api/graphql', {
+    const res = await axios.get('http://b0d6a13d1629:3001/api/graphql', {
 
       params: {
         query: `
@@ -27,7 +27,7 @@ exports.cities = async () => {
   }
 }
 
-const uri = 'http://localhost:3001/api/graphql';
+const uri = 'http://b0d6a13d1629:3001/api/graphql';
 const apolloFetch = createApolloFetch({ uri });
 let query = `
             {
