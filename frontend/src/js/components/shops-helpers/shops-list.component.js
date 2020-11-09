@@ -17,9 +17,9 @@ class ShopsListCtrl {
             .query()
             .then(
                 (res) => {
-                    console.log('console res in run query', res)                    
+                    // console.log('console res in run query', res)                    
                     this.list = res.shops;
-                    console.log('console res in run query opinions -->', this.list)
+                    // console.log('console res in run query opinions -->', this.list)
 
                     //Creamos dos nuevos campos en la ciudad uno con el numero de ciudades que tiene
                     //Y otro para ponerlo en plural o singular
@@ -28,7 +28,7 @@ class ShopsListCtrl {
 
                         this.list[i].hwmny= this.list[i].count==1?"Ciudad":"Ciudades"
                     }
-                    console.log(this.list)
+                    // console.log(this.list)
                 }
             );
     }
@@ -41,6 +41,7 @@ class ShopsListCtrl {
             .then(
                 (res) => {
                     this.list = res.shops;
+                    // console.log(res)
 
                     //Creamos dos nuevos campos en la ciudad uno con el numero de ciudades que tiene
                     //Y otro para ponerlo en plural o singular
@@ -49,7 +50,7 @@ class ShopsListCtrl {
 
                         this.list[i].hwmny= this.list[i].count==1?"Ciudad":"Ciudades"
                     }
-                    console.log(this.list)
+                    // console.log(this.list)
                 }
             );
     }

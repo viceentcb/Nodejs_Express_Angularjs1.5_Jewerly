@@ -1,20 +1,20 @@
 export default class Shops {
-    constructor(AppConstants, $http, $q, GraphQLClient) {
-      'ngInject';
+  constructor(AppConstants, $http, $q, GraphQLClient) {
+    'ngInject';
 
-  
-      this._AppConstants = AppConstants;
-      this._$http = $http;
-      this._$q = $q;
-      this._GQL = GraphQLClient;
-  
-    }
-  
-    /**
-     * RETURN ALL OPINIONS
-     */
-    query() {
-      let query = `
+
+    this._AppConstants = AppConstants;
+    this._$http = $http;
+    this._$q = $q;
+    this._GQL = GraphQLClient;
+
+  }
+
+  /**
+   * RETURN ALL OPINIONS
+   */
+  query() {
+    let query = `
             {
               shops{
                 slug
@@ -26,14 +26,15 @@ export default class Shops {
               }
             }
           `;
-      return this._GQL.get(query);
-    }
+    return this._GQL.get(query);
+  }
 
-    getShops() {
-      return this._$http({
-          url: this._AppConstants.api + "/jewels/shops"
-      }).then(res => {
-          return res.data;
-      });
+  getShops() {
+    return this._$http({
+      url: this._AppConstants.api + "/jewels/shops"
+    }).then(res => {
+      // console.log(res)
+      return res.data;
+    });
   }
-  }
+}

@@ -13,11 +13,21 @@ class CitiesListCtrl {
 
         var myModal = document.getElementById("myModal");
 
+        let shops_names = (this.city.shop).filter(shop => shop.name)
+        let shops = '';
+
+        for (let i = 0; i < shops_names.length; i++) {
+            shops += ` <li class="tag-default tag-pill tag-outline">${shops_names[i].name}</li>`
+        }
+
         myModal.innerHTML = `
          <div class="modal-content">
             <span class="close">&times;</span>
             <h1>${ this.city.name}</h1>
             <p>${ this.city.count} ${this.city.hwmny}</p>
+            <ul class="tag-list">
+            ${shops}
+        </ul>
             </div>`;
 
         myModal.style.display = "block";
