@@ -56,7 +56,7 @@
 
 <h2>Built with</h2>
 <ul>
-<li><a href="https://angularjs.org/">Angular JS</a> <img  style="width:25px;" src="https://www.shareicon.net/data/256x256/2016/07/10/119875_development_512x512.png"></li> 
+<li><a href="https://angularjs.org/">Angular JS</a> <img  style="width:1px;" src="https://www.shareicon.net/data/256x256/2016/07/10/119875_development_512x512.png"></li> 
 <li><a href="https://nodejs.org/es/">Node JS</a> <img  style="width:25px;" src="https://cdn.iconscout.com/icon/free/png-256/node-js-1174925.png"> </li>
 <li><a href="https://expressjs.com/es/">Express</a><img  style="width:25px;" src="https://miro.medium.com/max/365/1*Jr3NFSKTfQWRUyjblBSKeg.png"> </li>
 <li><a href="https://mongoosejs.com/">Mongoose</a></li>
