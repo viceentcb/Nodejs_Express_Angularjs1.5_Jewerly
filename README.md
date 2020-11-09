@@ -56,12 +56,12 @@
 
 <h2>Built with</h2>
 <ul>
-<li><a href="https://angularjs.org/">Angular JS</a> </li>
-<li><a href="https://nodejs.org/es/">Node JS</a> </li>
-<li><a href="https://expressjs.com/es/">Express</a> </li>
-<li><a href="https://mongoosejs.com/">Mongoose</a> </li>
-<li><a href="https://www.mongodb.com/es">MongoDB</a> </li>
-<li><a href="https://graphql.org/">GraphQL</a> </li>
+<li><a href="https://angularjs.org/">Angular JS</a> <img  style="width:25px;" src="https://www.shareicon.net/data/256x256/2016/07/10/119875_development_512x512.png"></li> 
+<li><a href="https://nodejs.org/es/">Node JS</a> <img  style="width:25px;" src="https://cdn.iconscout.com/icon/free/png-256/node-js-1174925.png"> </li>
+<li><a href="https://expressjs.com/es/">Express</a><img  style="width:25px;" src="https://miro.medium.com/max/365/1*Jr3NFSKTfQWRUyjblBSKeg.png"> </li>
+<li><a href="https://mongoosejs.com/">Mongoose</a></li>
+<li><a href="https://www.mongodb.com/es">MongoDB</a><img  style="width:25px;" src="https://3.bp.blogspot.com/-jfCUhqOXTzo/V5zXSe9k18I/AAAAAAAAAGo/iJbE8UMVrlUmO0VPbrHd0Cn8JgtVsd7IgCLcB/s1600/mongodb.png"> </li>
+<li><a href="https://graphql.org/">GraphQL</a><img  style="width:25px;" src="https://d2eip9sf3oo6c2.cloudfront.net/tags/images/000/001/034/square_256/graphqllogo.png"> </li>
 </ul>
 
 
