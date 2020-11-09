@@ -4,7 +4,7 @@ const AppConstants = {
   gql: 'http://localhost:3001/api',
 
   jwtKey: 'jwtToken',
-  appName: 'Conduit',
+  appName: 'Kalipso',
 };
 
 export default AppConstants;
