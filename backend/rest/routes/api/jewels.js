@@ -6,6 +6,30 @@ var User = mongoose.model('User');
 var auth = require('../auth');
 let graphql = require('./request');
 const { request } = require('http');
+let client = require('prom-client');
+
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ timeout: 5000 });
+
+const counterJewelsEndpoint = new client.Counter({
+    name: 'counterJewelsEndpoint',
+    help: 'The total number of processed requests to get endpoint'
+});
+
+const counterJewelEndpoint = new client.Counter({
+    name: 'counterJewelEndpoint',
+    help: 'The total number of processed requests to get endpoint'
+});
+
+const counterCitysEndpoint = new client.Counter({
+    name: 'counterCitysEndpoint',
+    help: 'The total number of processed requests to get endpoint'
+});
+const counterShopsEndpoint = new client.Counter({
+    name: 'counterShopsEndpoint',
+    help: 'The total number of processed requests to get endpoint'
+});
+
 
 
 router.param('jewel', function (req, res, next, slug) {
@@ -72,6 +96,7 @@ router.get('/feed', auth.required, function (req, res, next) {
 // return all jewells
 router.get('/', auth.optional, function (req, res, next) {
     // listCities();
+    counterJewelsEndpoint.inc();
 
     var query = {};
     var limit = 20;
@@ -131,14 +156,19 @@ router.get('/', auth.optional, function (req, res, next) {
 });
 
 router.all('/cities',async  function (_, res) {
+    counterCitiessEndpoint
     return res.json({ cities: await graphql.cities() });
 });
 
 router.all('/shops', auth.optional,async  function (_, res) {
+    counterShopsEndpoint.inc();
+
     return res.json({ shops: await graphql.shops() });
 });
 //obtain a jewel by slug
 router.get('/:jewel', auth.optional, function (req, res, next) {
+    counterJewelEndpoint.inc();
+
     Promise.all([
         req.payload ? User.findById(req.payload.id) : null,
         req.jewel.populate('author').execPopulate()
@@ -340,4 +370,6 @@ let delcomment = async (id) => {
     await Comment.find({ _id: id }).remove().exec()
 }
 
+
+  
 module.exports = router;

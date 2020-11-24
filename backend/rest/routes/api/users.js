@@ -4,6 +4,7 @@ var passport = require('passport');
 var User = mongoose.model('User');
 var auth = require('../auth');
 
+
 router.get('/user', auth.required, function (req, res, next) {
   User.findById(req.payload.id).then(function (user) {
     // console.log('findid',user);
@@ -166,5 +167,7 @@ router.get("/auth/github/callback",
 
 //     })
 // }
+
+
 
 module.exports = router;
